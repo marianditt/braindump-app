@@ -1,7 +1,7 @@
 export type SearchHash = string[]
 
 export function createSearchHash(...values: string[]): SearchHash {
-  type StringSet = { [value: string]: any }
+  type StringSet = { [value: string]: boolean }
 
   return Object.keys(
     values
@@ -16,7 +16,7 @@ export function createSearchHash(...values: string[]): SearchHash {
   )
 }
 
-export function scoreSearchable(content: SearchHash, keywords: SearchHash): number {
+export function scoreSearchResult(content: SearchHash, keywords: SearchHash): number {
   const searchableContent = content.join(';')
   return keywords.filter((kw: string) => searchableContent.includes(kw)).length
 }
