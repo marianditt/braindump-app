@@ -1,10 +1,9 @@
 import { Fab, Theme, withTheme } from '@material-ui/core'
-import { Add } from '@material-ui/icons'
+import { Add as AddIcon } from '@material-ui/icons'
 import React from 'react'
 import styled, { ThemeProps } from 'styled-components'
-import { Link } from 'react-router-dom'
 
-export const FloatingButton = withTheme(styled(FloatingButtonComponent)`
+export const FloatingButton = withTheme(styled(Component)`
   position: fixed;
   top: auto;
   bottom: ${(props: FloatingButtonProps & ThemeProps<Theme>) => 30 + (props.index || 0) * 70}px;
@@ -12,16 +11,18 @@ export const FloatingButton = withTheme(styled(FloatingButtonComponent)`
   right: 30px;
 `)
 
-export interface FloatingButtonProps {
+interface FloatingButtonProps {
   className: string
   index?: number
-  linkTo: string
+  onClick?: () => void
 }
 
-function FloatingButtonComponent(props: FloatingButtonProps) {
+function Component(props: FloatingButtonProps) {
+  const onClick = props.onClick || (() => undefined)
+
   return (
-    <Fab className={props.className} color="primary" aria-label="add" component={Link} to={props.linkTo}>
-      <Add />
+    <Fab className={props.className} color="primary" aria-label="add" onClick={onClick}>
+      <AddIcon />
     </Fab>
   )
 }

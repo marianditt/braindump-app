@@ -1,32 +1,45 @@
-import { SearchBar } from '../components/search-bar'
-import { SearchResultItem, SearchResultList } from '../components/search-result-list'
-import { FloatingButton } from '../components/floating-button'
-import { Container } from '@material-ui/core'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { RootState, useAppSelector } from '../store/store'
 import { Dump } from '../store/dumps'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
+import { SearchComponent } from '../components/search-component'
+import { useHistory } from 'react-router-dom'
+
+interface SearchState {
+  filter: string
+  selected: Dump | null
+}
+
+type SetSearchState = React.Dispatch<React.SetStateAction<SearchState>>
 
 export function SearchView() {
-  const [state, setState] = useState({ filter: '' })
+  const initialState: SearchState = {
+    filter: '',
+    selected: null,
+  }
 
-  const items = useAppSelector((globalState: RootState) => {
+  const [state, setState]: [SearchState, SetSearchState] = useState(initialState)
+
+  const history = useHistory<string>()
+
+  const dumps = useAppSelector((globalState: RootState): Dump[] => {
     const scores = globalState.dumps.map((dump: Dump) => scoreDump(dump, state.filter))
-    return filterDumps(globalState.dumps, scores).map(toSearchResultItem)
+    return filterDumps(globalState.dumps, scores)
   })
 
   const onSearchFilterChange = (filter: string) => {
-    setState({ filter })
+    setState((prevState) => ({ ...prevState, filter }))
+  }
+
+  const onDumpSelection = (dump: Dump) => {
+    history.push(`/dumps/${dump.id}`)
   }
 
   return (
-    <Container maxWidth="sm">
-      <h1>Braindump</h1>
+    <>
       <h2>Find dumps</h2>
-      <SearchBar onSearchFilterChange={onSearchFilterChange} />
-      {items.length > 0 ? <SearchResultList searchResultItems={items} /> : null}
-      <FloatingButton linkTo={'/create'} />
-    </Container>
+      <SearchComponent dumps={dumps} onSearchFilterChange={onSearchFilterChange} onDumpSelection={onDumpSelection} />
+    </>
   )
 }
 
@@ -46,11 +59,4 @@ function filterDumps(dumps: Dump[], scores: number[]): Dump[] {
     .map((score: number, index: number) => (score === maxScore ? index : -1))
     .filter((index: number) => index >= 0)
   return maxIndexes.map((index: number) => dumps[index])
-}
-
-function toSearchResultItem(dump: Dump): SearchResultItem {
-  return {
-    primary: dump.summary,
-    secondary: dump.timestamp.toLocaleString(),
-  }
 }

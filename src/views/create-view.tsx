@@ -1,20 +1,23 @@
-import { DumpForm } from '../components/dump-form'
-import { Container } from '@material-ui/core'
+import { CreateComponent } from '../components/create-component'
 import { addDump, Dump } from '../store/dumps'
 import { useAppDispatch } from '../store/store'
+import { useHistory } from 'react-router-dom'
+import React from 'react'
 
 export function CreateView() {
+  const history = useHistory<string>()
+
   const dispatch = useAppDispatch()
 
   const onSave = (dump: Dump) => {
     dispatch(addDump(dump))
+    history.push('/')
   }
 
   return (
-    <Container maxWidth="sm">
-      <h1>Braindump</h1>
+    <>
       <h2>Create new dump</h2>
-      <DumpForm onSave={onSave} linkTo="/" />
-    </Container>
+      <CreateComponent onSave={onSave} />
+    </>
   )
 }
