@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { RootState, useAppSelector } from '../store/store'
-import { Dump } from '../store/dumps'
+import { Dump, removeDump } from '../store/dumps'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
 import { SearchDumpsComponent } from '../components/search-dumps-component'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 interface SearchState {
   filter: string
@@ -27,12 +28,18 @@ export function SearchDumpsView() {
     return filterDumps(globalState.dumps, scores)
   })
 
+  const dispatch = useDispatch<any>()
+
   const onSearchFilterChange = (filter: string) => {
     setState((prevState) => ({ ...prevState, filter }))
   }
 
   const onDumpSelection = (dump: Dump) => {
     history.push(`/show/dumps/${dump.id}`)
+  }
+
+  const onDumpRemoval = (dump: Dump) => {
+    dispatch(removeDump(dump))
   }
 
   return (
@@ -42,6 +49,7 @@ export function SearchDumpsView() {
         dumps={dumps}
         onSearchFilterChange={onSearchFilterChange}
         onDumpSelection={onDumpSelection}
+        onDumpRemoval={onDumpRemoval}
       />
     </>
   )

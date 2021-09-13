@@ -16,6 +16,7 @@ interface DumpAction {
 const DumpActionType = {
   ADD_DUMP: 'ADD_DUMP',
   SET_DUMP: 'SET_DUMP',
+  REMOVE_DUMP: 'REMOVE_DUMP',
 }
 
 const loadInitialState = (): Dump[] => {
@@ -54,19 +55,46 @@ export const setDump = (dump: Dump) => {
   }
 }
 
+export const removeDump = (dump: Dump) => {
+  const removeDumpAction: DumpAction = {
+    type: DumpActionType.REMOVE_DUMP,
+    dump: dump,
+  }
+
+  return (dispatch: Dispatch<DumpAction>, getState: () => Dump[]) => {
+    dispatch(removeDumpAction)
+    const newState = getState()
+    localStorage.setItem('dumps', JSON.stringify(newState))
+  }
+}
+
 export const dumpReducer = (state: Dump[] = initialState, action: DumpAction): Dump[] => {
+  const addDumpAction = (state: Dump[], dump: Dump) => {
+    return [...state, dump]
+  }
+
+  const setDumpAction = (state: Dump[], dump: Dump) => {
+    const index = state.findIndex((d: Dump) => d.id === dump.id)
+    if (index < 0) {
+      return state
+    }
+
+    const newState = [...state]
+    newState[index] = action.dump
+    return newState
+  }
+
+  const removeDumpAction = (state: Dump[], dump: Dump) => {
+    return state.filter((d: Dump) => d.id !== dump.id)
+  }
+
   switch (action.type) {
     case DumpActionType.ADD_DUMP:
-      return [...state, action.dump]
+      return addDumpAction(state, action.dump)
     case DumpActionType.SET_DUMP:
-      const index = state.findIndex((dump: Dump) => dump.id === action.dump.id)
-      if (index < 0) {
-        return state
-      }
-
-      const newState = [...state]
-      newState[index] = action.dump
-      return newState
+      return setDumpAction(state, action.dump)
+    case DumpActionType.REMOVE_DUMP:
+      return removeDumpAction(state, action.dump)
   }
   return state
 }
