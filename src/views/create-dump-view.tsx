@@ -1,10 +1,10 @@
-import { CreateComponent } from '../components/create-component'
+import { EditDumpComponent } from '../components/edit-dump-component'
 import { addDump, Dump } from '../store/dumps'
 import { useAppDispatch } from '../store/store'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
 
-export function CreateView() {
+export function CreateDumpView() {
   const history = useHistory<string>()
 
   const dispatch = useAppDispatch()
@@ -17,7 +17,7 @@ export function CreateView() {
   return (
     <>
       <h2>Create new dump</h2>
-      <CreateComponent onSave={onSave} />
+      <EditDumpComponent onSave={onSave} />
     </>
   )
 }

@@ -13,7 +13,7 @@ import { Dump } from '../store/dumps'
 import styled from 'styled-components'
 import { Search as SearchIcon } from '@material-ui/icons'
 
-export const SearchComponent = withTheme(styled(Component)``)
+export const SearchDumpsComponent = withTheme(styled(Component)``)
 
 interface SearchProps {
   dumps: Dump[]
@@ -40,8 +40,8 @@ function Component(props: SearchProps) {
   )
 
   const listItems = props.dumps.map((dump: Dump) => (
-    <ListItem button onClick={() => props.onDumpSelection(dump)}>
-      <ListItemText primary={dump.summary} secondary={dump.timestamp.toLocaleString()} />
+    <ListItem key={dump.id} button onClick={() => props.onDumpSelection(dump)}>
+      <ListItemText primary={dump.summary} secondary={new Date(dump.timestamp).toLocaleString()} />
     </ListItem>
   ))
 

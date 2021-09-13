@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RootState, useAppSelector } from '../store/store'
 import { Dump } from '../store/dumps'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
-import { SearchComponent } from '../components/search-component'
+import { SearchDumpsComponent } from '../components/search-dumps-component'
 import { useHistory } from 'react-router-dom'
 
 interface SearchState {
@@ -12,7 +12,7 @@ interface SearchState {
 
 type SetSearchState = React.Dispatch<React.SetStateAction<SearchState>>
 
-export function SearchView() {
+export function SearchDumpsView() {
   const initialState: SearchState = {
     filter: '',
     selected: null,
@@ -32,13 +32,17 @@ export function SearchView() {
   }
 
   const onDumpSelection = (dump: Dump) => {
-    history.push(`/dumps/${dump.id}`)
+    history.push(`/show/dumps/${dump.id}`)
   }
 
   return (
     <>
       <h2>Find dumps</h2>
-      <SearchComponent dumps={dumps} onSearchFilterChange={onSearchFilterChange} onDumpSelection={onDumpSelection} />
+      <SearchDumpsComponent
+        dumps={dumps}
+        onSearchFilterChange={onSearchFilterChange}
+        onDumpSelection={onDumpSelection}
+      />
     </>
   )
 }

@@ -6,7 +6,7 @@ import { isEmpty } from '../validators/string-validators'
 import { createDump } from '../services/create-service'
 import { Save as SaveIcon } from '@material-ui/icons'
 
-export const CreateComponent = withTheme(styled(Component)`
+export const EditDumpComponent = withTheme(styled(Component)`
   div {
     width: 100%;
   }
@@ -20,8 +20,9 @@ export const CreateComponent = withTheme(styled(Component)`
   }
 `)
 
-export interface CreateDumpProps {
+interface EditDumpProps {
   className: string
+  dump?: Dump
   onSave: (dump: Dump) => void
 }
 
@@ -38,15 +39,15 @@ interface DumpState {
 
 type SetDumpState = React.Dispatch<React.SetStateAction<DumpState>>
 
-function Component(props: CreateDumpProps) {
+function Component(props: EditDumpProps) {
   const initialState: DumpState = {
     summary: {
-      value: null,
+      value: props.dump?.summary || null,
       hasError: false,
       error: null,
     },
     description: {
-      value: null,
+      value: props.dump?.description || null,
       hasError: false,
       error: null,
     },
@@ -62,11 +63,12 @@ function Component(props: CreateDumpProps) {
   }
 
   const onSave = () => {
+    const id = props.dump?.id || null
     const summary = state.summary.value || ''
     const description = state.description.value || ''
 
     if (validated) {
-      const dump = createDump(summary, description)
+      const dump = createDump(id, summary, description)
       props.onSave(dump)
     }
   }
@@ -85,6 +87,7 @@ function Component(props: CreateDumpProps) {
             id="summary"
             label="Summary"
             variant="outlined"
+            value={state.summary.value || ''}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
             error={state.summary.hasError}
             helperText={state.summary.error}
@@ -95,6 +98,7 @@ function Component(props: CreateDumpProps) {
             id="description"
             label="Description"
             variant="outlined"
+            value={state.description.value || ''}
             multiline
             rows={12}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
