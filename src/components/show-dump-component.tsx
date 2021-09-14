@@ -17,10 +17,31 @@ interface DumpProps {
 }
 
 function Component(props: DumpProps) {
+  const parseParagraphs = (text: string, nextParser: (text: string) => JSX.Element): JSX.Element => {
+    const elements = text.split('\n\n').map((part: string) => <p>{nextParser(part)}</p>)
+    return <>{elements}</>
+  }
+
+  const parseLinebreak = (text: string, nextParser: (test: string) => JSX.Element): JSX.Element => {
+    const elements = text.split('\n').map((part: string) => (
+      <>
+        {nextParser(part)}
+        <br />
+      </>
+    ))
+    return <>{elements}</>
+  }
+
+  const parseText = (text: string): JSX.Element => {
+    return <>{text}</>
+  }
+
+  const formattedDescription = parseParagraphs(props.dump.description, (x: string) => parseLinebreak(x, parseText))
+
   return (
     <div className={props.className}>
       <h2>{props.dump.summary}</h2>
-      <p>{props.dump.description}</p>
+      {formattedDescription}
       <div>
         <Button onClick={props.onEdit} variant="contained" color="primary" size="large" startIcon={<EditIcon />}>
           Edit
