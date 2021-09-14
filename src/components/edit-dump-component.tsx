@@ -33,6 +33,7 @@ interface DumpFieldState {
 }
 
 interface DumpState {
+  currentDump: Dump | null
   summary: DumpFieldState
   description: DumpFieldState
 }
@@ -41,6 +42,7 @@ type SetDumpState = React.Dispatch<React.SetStateAction<DumpState>>
 
 function Component(props: EditDumpProps) {
   const initialState: DumpState = {
+    currentDump: props.dump || null,
     summary: {
       value: props.dump?.summary || null,
       hasError: false,
@@ -54,29 +56,37 @@ function Component(props: EditDumpProps) {
   }
 
   const [state, setState]: [DumpState, SetDumpState] = useState(initialState)
-  const [validated, setValidated]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState(false as boolean)
+  const [saveEnabled, setSaveEnabled]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState(
+    false as boolean
+  )
 
   const onFieldChange = (field: keyof DumpState, value: string) => {
     const hasError = isEmpty(value)
     const error = hasError ? 'Field must not be empty' : null
-    setState((prevState) => ({ ...prevState, [field]: { value, hasError, error } }))
+    setState((prevState: DumpState) => ({
+      ...prevState,
+      [field]: { value, hasError, error },
+    }))
   }
 
   const onSave = () => {
-    const id = props.dump?.id || null
-    const summary = state.summary.value || ''
-    const description = state.description.value || ''
+    const id = state.currentDump?.id || null
+    const summary = state.summary?.value || ''
+    const description = state.description?.value || ''
 
-    if (validated) {
+    if (saveEnabled) {
       const dump = createDump(id, summary, description)
       props.onSave(dump)
+      setState((prevState: DumpState) => ({ ...prevState, currentDump: dump }))
     }
   }
 
   useEffect(() => {
-    const validSummary = state.summary.value !== null && !state.summary.hasError
-    const validDescription = state.description.value !== null && !state.description.hasError
-    setValidated(validSummary && validDescription)
+    const validSummary = !state.summary.hasError
+    const validDescription = !state.description.hasError
+    const summaryChanged = state.summary?.value !== state.currentDump?.summary
+    const descriptionChanged = state.description?.value !== state.currentDump?.description
+    setSaveEnabled(validSummary && validDescription && (summaryChanged || descriptionChanged))
   }, [state])
 
   return (
@@ -87,7 +97,7 @@ function Component(props: EditDumpProps) {
             id="summary"
             label="Summary"
             variant="outlined"
-            value={state.summary.value || ''}
+            value={state.summary?.value || ''}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
             error={state.summary.hasError}
             helperText={state.summary.error}
@@ -98,7 +108,7 @@ function Component(props: EditDumpProps) {
             id="description"
             label="Description"
             variant="outlined"
-            value={state.description.value || ''}
+            value={state.description?.value || ''}
             multiline
             rows={12}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
@@ -108,7 +118,7 @@ function Component(props: EditDumpProps) {
         </div>
         <div>
           <Button
-            disabled={!validated}
+            disabled={!saveEnabled}
             onClick={onSave}
             variant="contained"
             color="primary"
