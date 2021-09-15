@@ -79,7 +79,12 @@ function Component(props: EditDumpProps) {
     if (saveEnabled) {
       const dump = createDump(id, summary, description)
       props.onSave(dump)
-      setState((prevState: DumpState) => ({ ...prevState, currentDump: dump }))
+      setState((prevState: DumpState) => ({
+        ...prevState,
+        summary: { ...prevState.summary, value: dump.summary },
+        description: { ...prevState.description, value: dump.description },
+        currentDump: dump,
+      }))
     }
   }
 
@@ -107,7 +112,7 @@ function Component(props: EditDumpProps) {
   useEffect(() => {
     const validSummary = state.summary.value !== null && !state.summary.hasError
     const validDescription = state.description.value !== null && !state.description.hasError
-    const summaryChanged = state.summary.value !== state.currentDump?.summary
+    const summaryChanged = state.summary.value?.trim() !== state.currentDump?.summary
     const descriptionChanged = state.description.value !== state.currentDump?.description
     setSaveEnabled(validSummary && validDescription && (summaryChanged || descriptionChanged))
   }, [state])

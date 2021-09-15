@@ -5,7 +5,7 @@ export function createDump(id: string | null, summary: string, description: stri
   return {
     id: id || uuid4(),
     timestamp: Date.now(),
-    summary: summary,
+    summary: summary.trim(),
     description: description,
     tags: [],
   }
