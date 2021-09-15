@@ -3,11 +3,11 @@ interface EventHandler {
   action: () => void
 }
 
-function isSaveEvent(event: KeyboardEvent) {
+function isSaveEvent(event: KeyboardEvent): boolean {
   return event.ctrlKey && event.key === 's'
 }
 
-function isCancelEvent(event: KeyboardEvent) {
+function isCancelEvent(event: KeyboardEvent): boolean {
   return event.key === 'Escape'
 }
 

@@ -1,6 +1,6 @@
 import { Button, TextField, Theme, withTheme } from '@material-ui/core'
 import styled, { ThemeProps } from 'styled-components'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { Dump } from '../store/dumps'
 import { isEmpty } from '../validators/string-validators'
 import { createDump } from '../services/create-service'
@@ -87,6 +87,10 @@ function Component(props: EditDumpProps) {
     props.onCancel()
   }
 
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+  }
+
   const eventHandler = new EventHandlerBuilder().onSave(onSave).onCancel(onCancel).build()
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -110,7 +114,7 @@ function Component(props: EditDumpProps) {
 
   return (
     <>
-      <form className={props.className} noValidate autoComplete="off">
+      <form className={props.className} noValidate autoComplete="off" onSubmit={onSubmit}>
         <div>
           <TextField
             id="summary"

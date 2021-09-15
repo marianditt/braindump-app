@@ -1,3 +1,3 @@
 export function isEmpty(value: string): boolean {
-  return value.length === 0
+  return value.trim().length === 0
 }
