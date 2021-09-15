@@ -101,10 +101,10 @@ function Component(props: EditDumpProps) {
   })
 
   useEffect(() => {
-    const validSummary = !state.summary.hasError
-    const validDescription = !state.description.hasError
-    const summaryChanged = state.summary?.value !== state.currentDump?.summary
-    const descriptionChanged = state.description?.value !== state.currentDump?.description
+    const validSummary = state.summary.value !== null && !state.summary.hasError
+    const validDescription = state.description.value !== null && !state.description.hasError
+    const summaryChanged = state.summary.value !== state.currentDump?.summary
+    const descriptionChanged = state.description.value !== state.currentDump?.description
     setSaveEnabled(validSummary && validDescription && (summaryChanged || descriptionChanged))
   }, [state])
 
@@ -116,7 +116,7 @@ function Component(props: EditDumpProps) {
             id="summary"
             label="Summary"
             variant="outlined"
-            value={state.summary?.value || ''}
+            value={state.summary.value || ''}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
             error={state.summary.hasError}
             helperText={state.summary.error}
@@ -127,7 +127,7 @@ function Component(props: EditDumpProps) {
             id="description"
             label="Description"
             variant="outlined"
-            value={state.description?.value || ''}
+            value={state.description.value || ''}
             multiline
             rows={12}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
