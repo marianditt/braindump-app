@@ -38,7 +38,7 @@ function Component(props: SearchProps) {
   const searchForm = (
     <FormControl>
       <InputLabel htmlFor="search">Search</InputLabel>
-      <Input id="search" onChange={onSearchFilterChange} endAdornment={adornment} autoComplete="off" />
+      <Input id="search" autoFocus onChange={onSearchFilterChange} endAdornment={adornment} autoComplete="off" />
     </FormControl>
   )
 

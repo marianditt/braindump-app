@@ -117,6 +117,7 @@ function Component(props: EditDumpProps) {
             label="Summary"
             variant="outlined"
             value={state.summary.value || ''}
+            autoFocus
             onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
             error={state.summary.hasError}
             helperText={state.summary.error}
