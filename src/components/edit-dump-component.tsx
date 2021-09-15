@@ -5,6 +5,7 @@ import { Dump } from '../store/dumps'
 import { isEmpty } from '../validators/string-validators'
 import { createDump } from '../services/create-service'
 import { Save as SaveIcon } from '@material-ui/icons'
+import { EventHandlerBuilder } from './key-event-handler'
 
 export const EditDumpComponent = withTheme(styled(Component)`
   div {
@@ -24,6 +25,7 @@ interface EditDumpProps {
   className: string
   dump?: Dump
   onSave: (dump: Dump) => void
+  onCancel: () => void
 }
 
 interface DumpFieldState {
@@ -80,6 +82,23 @@ function Component(props: EditDumpProps) {
       setState((prevState: DumpState) => ({ ...prevState, currentDump: dump }))
     }
   }
+
+  const onCancel = () => {
+    props.onCancel()
+  }
+
+  const eventHandler = new EventHandlerBuilder().onSave(onSave).onCancel(onCancel).build()
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    eventHandler(event)
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  })
 
   useEffect(() => {
     const validSummary = !state.summary.hasError

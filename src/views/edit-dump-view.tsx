@@ -1,5 +1,5 @@
 import { EditDumpComponent } from '../components/edit-dump-component'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { RootState, useAppSelector } from '../store/store'
 import { Dump, setDump } from '../store/dumps'
 import { useDispatch } from 'react-redux'
@@ -9,6 +9,8 @@ export interface EditDumpRouteParams {
 }
 
 export function EditDumpView() {
+  const history = useHistory<string>()
+
   const routeParams = useParams<EditDumpRouteParams>()
 
   const dumps: Dump[] = useAppSelector((state: RootState) =>
@@ -21,10 +23,14 @@ export function EditDumpView() {
     dispatch(setDump(dump))
   }
 
+  const onCancel = () => {
+    history.push('/')
+  }
+
   return (
     <>
       <h2>Edit Dump</h2>
-      {dumps.length === 1 ? <EditDumpComponent onSave={onSave} dump={dumps[0]} /> : null}
+      {dumps.length === 1 ? <EditDumpComponent onSave={onSave} onCancel={onCancel} dump={dumps[0]} /> : null}
     </>
   )
 }

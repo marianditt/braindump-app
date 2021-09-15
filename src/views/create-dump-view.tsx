@@ -14,10 +14,14 @@ export function CreateDumpView() {
     history.push('/')
   }
 
+  const onCancel = () => {
+    history.push('/')
+  }
+
   return (
     <>
       <h2>Create new dump</h2>
-      <EditDumpComponent onSave={onSave} />
+      <EditDumpComponent onSave={onSave} onCancel={onCancel} />
     </>
   )
 }
