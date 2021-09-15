@@ -3,6 +3,10 @@ interface EventHandler {
   action: () => void
 }
 
+function isEditEvent(event: KeyboardEvent): boolean {
+  return event.key === 'e'
+}
+
 function isSaveEvent(event: KeyboardEvent): boolean {
   return event.ctrlKey && event.key === 's'
 }
@@ -13,6 +17,14 @@ function isCancelEvent(event: KeyboardEvent): boolean {
 
 export class EventHandlerBuilder {
   constructor(private handlers: EventHandler[] = []) {}
+
+  onEdit(action: () => void): EventHandlerBuilder {
+    this.handlers.push({
+      matcher: isEditEvent,
+      action: action,
+    })
+    return this
+  }
 
   onSave(action: () => void): EventHandlerBuilder {
     this.handlers.push({

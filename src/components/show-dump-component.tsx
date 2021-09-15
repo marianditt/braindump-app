@@ -1,9 +1,10 @@
 import { Button, withTheme } from '@material-ui/core'
 import styled from 'styled-components'
 import { Dump } from '../store/dumps'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Edit as EditIcon } from '@material-ui/icons'
 import { parseMarkdown } from './markdown-component'
+import { EventHandlerBuilder } from './key-event-handler'
 
 export const ShowDumpComponent = withTheme(styled(Component)`
   > div:last-child {
@@ -19,6 +20,20 @@ interface DumpProps {
 
 function Component(props: DumpProps) {
   const formattedDescription = parseMarkdown(props.dump.description)
+
+  const eventHandler = new EventHandlerBuilder().onEdit(props.onEdit).build()
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    eventHandler(event)
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  })
+
   return (
     <div className={props.className}>
       <h2>{props.dump.summary}</h2>
