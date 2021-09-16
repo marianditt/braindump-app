@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react'
-import { BrowserRouter as Router, Link as RouterLink, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
-import { Container, CssBaseline, Link, StylesProvider } from '@material-ui/core'
+import { Container, CssBaseline, Link as MaterialLink, StylesProvider } from '@material-ui/core'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import { CreateDumpView } from './views/create-dump-view'
@@ -12,13 +12,13 @@ import { EditDumpView } from './views/edit-dump-view'
 export function App() {
   return withAppContext(
     <Container maxWidth={'sm'}>
-      <Link href="/" color="inherit">
-        <h1>Braindump</h1>
-      </Link>
-      <Router>
-        <RouterLink to="/create">
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <MaterialLink color="inherit" component={Link} to={'/'}>
+          <h1>Braindump</h1>
+        </MaterialLink>
+        <Link to="/create">
           <FloatingButton />
-        </RouterLink>
+        </Link>
 
         <Switch>
           <Route path="/create">
@@ -34,7 +34,7 @@ export function App() {
             <SearchDumpsView />
           </Route>
         </Switch>
-      </Router>
+      </BrowserRouter>
     </Container>
   )
 }
