@@ -11,7 +11,7 @@ export function CreateDumpView() {
 
   const onSave = (dump: Dump) => {
     dispatch(addDump(dump))
-    history.push('/')
+    history.push(`/edit/dumps/${dump.id}`)
   }
 
   const onCancel = () => {
