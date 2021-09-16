@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/braindump-app/static/css/main.875059cf.chunk.css",
-    "main.js": "/braindump-app/static/js/main.2dcb0f23.chunk.js",
-    "main.js.map": "/braindump-app/static/js/main.2dcb0f23.chunk.js.map",
+    "main.js": "/braindump-app/static/js/main.ce98fc8d.chunk.js",
+    "main.js.map": "/braindump-app/static/js/main.ce98fc8d.chunk.js.map",
     "runtime-main.js": "/braindump-app/static/js/runtime-main.701eb329.js",
     "runtime-main.js.map": "/braindump-app/static/js/runtime-main.701eb329.js.map",
     "static/js/2.64f62fa0.chunk.js": "/braindump-app/static/js/2.64f62fa0.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.701eb329.js",
     "static/js/2.64f62fa0.chunk.js",
     "static/css/main.875059cf.chunk.css",
-    "static/js/main.2dcb0f23.chunk.js"
+    "static/js/main.ce98fc8d.chunk.js"
   ]
 }
