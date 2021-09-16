@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Dump } from '../store/dumps'
 import React, { useEffect } from 'react'
 import { Edit as EditIcon } from '@material-ui/icons'
-import { parseMarkdown } from './markdown-component'
+import { MarkdownParserOptions, parseMarkdown } from './markdown-component'
 import { EventHandlerBuilder } from './key-event-handler'
 
 export const ShowDumpComponent = withTheme(styled(Component)`
@@ -19,7 +19,10 @@ interface DumpProps {
 }
 
 function Component(props: DumpProps) {
-  const formattedDescription = parseMarkdown(props.dump.description)
+  const mdOptions: MarkdownParserOptions = {
+    headingOffset: 2,
+  }
+  const formattedDescription = parseMarkdown(props.dump.description, mdOptions)
 
   const eventHandler = new EventHandlerBuilder().onEdit(props.onEdit).build()
 
