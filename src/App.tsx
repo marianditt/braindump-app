@@ -1,21 +1,35 @@
 import React, { StrictMode } from 'react'
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
-import { Container, CssBaseline, Link as MaterialLink, StylesProvider } from '@material-ui/core'
+import { Container, CssBaseline, StylesProvider } from '@material-ui/core'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import { CreateDumpView } from './views/create-dump-view'
 import { ShowDumpView } from './views/show-dump-view'
 import { FloatingButton } from './components/floating-button'
 import { EditDumpView } from './views/edit-dump-view'
+import { AppBar } from './components/app-bar-component'
+
+const exportAction = () => {
+  const jsonData = window.localStorage.getItem('dumps')
+
+  const fileData = JSON.stringify(jsonData)
+  const blob = new Blob([fileData], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.download = 'braindump.json'
+  link.href = url
+  link.click()
+}
 
 export function App() {
+  const menuActions = [{ title: 'Export', action: exportAction }]
+
   return withAppContext(
-    <Container maxWidth={'sm'}>
+    <Container maxWidth="sm">
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <MaterialLink color="inherit" component={Link} to={'/'}>
-          <h1>Braindump</h1>
-        </MaterialLink>
+        <AppBar title="Braindump" actions={menuActions} />
+
         <Link to="/create">
           <FloatingButton />
         </Link>
