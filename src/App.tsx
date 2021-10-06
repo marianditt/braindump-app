@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useRef } from 'react'
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch, useHistory } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
 import { Container } from '@material-ui/core'
 import { RootState, store, useAppDispatch } from './store/store'
@@ -7,13 +7,16 @@ import { CreateDumpView } from './views/create-dump-view'
 import { ShowDumpView } from './views/show-dump-view'
 import { FloatingButton } from './components/floating-button'
 import { EditDumpView } from './views/edit-dump-view'
-import { AppBar } from './components/app-bar'
+import { AppBar } from './components/header/app-bar'
 import { exportState, importState } from './services/import-export-service'
 import { setDumps } from './store/dump-store'
 import { MenuAction } from './types/menu-action-types'
+import { MenuButton } from './components/header/menu-button'
+import { BackButton } from './components/header/back-button'
 
 export function App() {
   const dispatch = useAppDispatch()
+  const history = useHistory<string>()
 
   const exportAction = () => {
     const state: RootState = store.getState()
@@ -39,9 +42,15 @@ export function App() {
     { title: 'Import', action: importAction },
   ]
 
+  const onBack = () => {
+    history.goBack()
+  }
+
   return (
     <>
-      <AppBar title="Braindump" actions={menuActions} />
+      <AppBar title="Braindump">
+        {history.length === 0 ? <MenuButton actions={menuActions} /> : <BackButton onBack={onBack} />}
+      </AppBar>
       <input
         type="file"
         ref={inputFile}
@@ -51,26 +60,24 @@ export function App() {
       />
 
       <Container maxWidth="xl">
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Link to="/create">
-            <FloatingButton />
-          </Link>
+        <Link to="/create">
+          <FloatingButton />
+        </Link>
 
-          <Switch>
-            <Route path="/create">
-              <CreateDumpView />
-            </Route>
-            <Route path="/edit/dumps/:dumpId">
-              <EditDumpView />
-            </Route>
-            <Route path="/show/dumps/:dumpId">
-              <ShowDumpView />
-            </Route>
-            <Route path="/">
-              <SearchDumpsView />
-            </Route>
-          </Switch>
-        </BrowserRouter>
+        <Switch>
+          <Route path="/create">
+            <CreateDumpView />
+          </Route>
+          <Route path="/edit/dumps/:dumpId">
+            <EditDumpView />
+          </Route>
+          <Route path="/show/dumps/:dumpId">
+            <ShowDumpView />
+          </Route>
+          <Route path="/">
+            <SearchDumpsView />
+          </Route>
+        </Switch>
       </Container>
     </>
   )
