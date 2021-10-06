@@ -1,4 +1,4 @@
-import { EditDumpComponent } from '../components/edit-dump-component'
+import { DumpEditor } from '../components/dump-editor'
 import { addDump } from '../store/dump-store'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
@@ -22,7 +22,7 @@ export function CreateDumpView() {
   return (
     <>
       <h2>Create new dump</h2>
-      <EditDumpComponent onSave={onSave} onCancel={onCancel} />
+      <DumpEditor onSave={onSave} onCancel={onCancel} />
     </>
   )
 }

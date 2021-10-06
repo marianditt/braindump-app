@@ -27,7 +27,7 @@ export function setDumps(dumps: Dump[]): any {
     dumps: dumps,
   }
 
-  return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>) => {
+  return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>): void => {
     dispatch(setDumpAction)
     const newState: Dump[] = getState()
     postDumps(newState)
@@ -40,7 +40,7 @@ export function addDump(dump: Dump): any {
     dump: dump,
   }
 
-  return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>) => {
+  return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>): void => {
     dispatch(addDumpAction)
     const newState: Dump[] = getState()
     postDumps(newState)
@@ -53,7 +53,7 @@ export function updateDump(dump: Dump): any {
     dump: dump,
   }
 
-  return (dispatch: Dispatch<DumpAction>, getState: GetState<Dump[]>) => {
+  return (dispatch: Dispatch<DumpAction>, getState: GetState<Dump[]>): void => {
     dispatch(setDumpAction)
     const newState: Dump[] = getState()
     postDumps(newState)
@@ -66,7 +66,7 @@ export function removeDump(dump: Dump): any {
     dump: dump,
   }
 
-  return (dispatch: Dispatch<DumpAction>, getState: GetState<Dump[]>) => {
+  return (dispatch: Dispatch<DumpAction>, getState: GetState<Dump[]>): void => {
     dispatch(removeDumpAction)
     const newState: Dump[] = getState()
     postDumps(newState)

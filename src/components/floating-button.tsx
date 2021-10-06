@@ -2,8 +2,9 @@ import { Fab, Theme, withTheme } from '@material-ui/core'
 import { Add as AddIcon } from '@material-ui/icons'
 import React from 'react'
 import styled, { ThemeProps } from 'styled-components'
+import PropTypes from 'prop-types'
 
-export const FloatingButton = withTheme(styled(Component)`
+export const FloatingButton = withTheme(styled(FloatingButtonComponent)`
   position: fixed;
   top: auto;
   bottom: ${(props: FloatingButtonProps & ThemeProps<Theme>) => 30 + (props.index || 0) * 70}px;
@@ -17,7 +18,13 @@ interface FloatingButtonProps {
   onClick?: () => void
 }
 
-function Component(props: FloatingButtonProps) {
+const propTypes = {
+  className: PropTypes.string.isRequired,
+  index: PropTypes.number,
+  onClick: PropTypes.func,
+}
+
+function FloatingButtonComponent(props: FloatingButtonProps) {
   const onClick = props.onClick || (() => undefined)
 
   return (
@@ -26,3 +33,5 @@ function Component(props: FloatingButtonProps) {
     </Fab>
   )
 }
+
+FloatingButtonComponent.propTypes = propTypes

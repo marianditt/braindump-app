@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RootState, useAppSelector } from '../store/store'
 import { removeDump } from '../store/dump-store'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
-import { SearchDumpsComponent } from '../components/search-dumps-component'
+import { DumpSearch } from '../components/dump-search'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Dump } from '../types/dump-types'
@@ -46,7 +46,7 @@ export function SearchDumpsView() {
   return (
     <>
       <h2>Find dumps</h2>
-      <SearchDumpsComponent
+      <DumpSearch
         dumps={dumps}
         onSearchFilterChange={onSearchFilterChange}
         onDumpSelection={onDumpSelection}

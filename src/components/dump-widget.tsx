@@ -4,9 +4,10 @@ import React, { useEffect } from 'react'
 import { Edit as EditIcon } from '@material-ui/icons'
 import { EventHandlerBuilder } from './key-event-handler'
 import Markdown from 'react-markdown'
-import { Dump } from '../types/dump-types'
+import { Dump, dumpShape } from '../types/dump-types'
+import PropTypes from 'prop-types'
 
-export const ShowDumpComponent = withTheme(styled(Component)`
+export const DumpWidget = withTheme(styled(DumpWidgetComponent)`
   > div:last-child {
     text-align: right;
   }
@@ -18,7 +19,13 @@ interface DumpProps {
   onEdit: () => void
 }
 
-function Component(props: DumpProps) {
+const propTypes = {
+  className: PropTypes.string.isRequired,
+  dump: PropTypes.shape(dumpShape).isRequired,
+  onEdit: PropTypes.func,
+}
+
+function DumpWidgetComponent(props: DumpProps) {
   const eventHandler = new EventHandlerBuilder().onEdit(props.onEdit).build()
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -44,3 +51,5 @@ function Component(props: DumpProps) {
     </div>
   )
 }
+
+DumpWidgetComponent.propTypes = propTypes

@@ -7,9 +7,10 @@ import { CreateDumpView } from './views/create-dump-view'
 import { ShowDumpView } from './views/show-dump-view'
 import { FloatingButton } from './components/floating-button'
 import { EditDumpView } from './views/edit-dump-view'
-import { AppBar } from './components/app-bar-component'
+import { AppBar } from './components/app-bar'
 import { exportState, importState } from './services/import-export-service'
 import { setDumps } from './store/dump-store'
+import { MenuAction } from './types/menu-action-types'
 
 export function App() {
   const dispatch = useAppDispatch()
@@ -33,7 +34,7 @@ export function App() {
     }
   }
 
-  const menuActions = [
+  const menuActions: MenuAction[] = [
     { title: 'Export', action: exportAction },
     { title: 'Import', action: importAction },
   ]

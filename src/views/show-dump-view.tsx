@@ -1,6 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom'
 import { RootState, useAppSelector } from '../store/store'
-import { ShowDumpComponent } from '../components/show-dump-component'
+import { DumpWidget } from '../components/dump-widget'
 import { Dump } from '../types/dump-types'
 
 export interface ShowDumpRouteParams {
@@ -22,5 +22,5 @@ export function ShowDumpView() {
     }
   }
 
-  return <>{dumps.length === 1 ? <ShowDumpComponent dump={dumps[0]} onEdit={onEdit} /> : null}</>
+  return <>{dumps.length === 1 ? <DumpWidget dump={dumps[0]} onEdit={onEdit} /> : null}</>
 }

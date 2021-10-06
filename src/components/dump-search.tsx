@@ -13,9 +13,10 @@ import {
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import { Delete as DeleteIcon, Search as SearchIcon } from '@material-ui/icons'
-import { Dump } from '../types/dump-types'
+import { Dump, dumpShape } from '../types/dump-types'
+import PropTypes from 'prop-types'
 
-export const SearchDumpsComponent = withTheme(styled(Component)``)
+export const DumpSearch = withTheme(styled(DumpSearchComponent)``)
 
 interface SearchProps {
   dumps: Dump[]
@@ -24,7 +25,14 @@ interface SearchProps {
   onDumpRemoval: (dump: Dump) => void
 }
 
-function Component(props: SearchProps) {
+const propTypes = {
+  dumps: PropTypes.arrayOf(PropTypes.shape(dumpShape).isRequired).isRequired,
+  onSearchFilterChange: PropTypes.func,
+  onDumpSelection: PropTypes.func,
+  onDumpRemoval: PropTypes.func,
+}
+
+function DumpSearchComponent(props: SearchProps) {
   const onSearchFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
     props.onSearchFilterChange(event.target.value)
   }
@@ -60,3 +68,5 @@ function Component(props: SearchProps) {
     </>
   )
 }
+
+DumpSearchComponent.propTypes = propTypes

@@ -5,9 +5,10 @@ import { isEmpty } from '../validators/string-validators'
 import { createDump } from '../services/create-service'
 import { Save as SaveIcon } from '@material-ui/icons'
 import { EventHandlerBuilder } from './key-event-handler'
-import { Dump } from '../types/dump-types'
+import { Dump, dumpShape } from '../types/dump-types'
+import PropTypes from 'prop-types'
 
-export const EditDumpComponent = withTheme(styled(Component)`
+export const DumpEditor = withTheme(styled(DumpEditorComponent)`
   div {
     width: 100%;
   }
@@ -25,11 +26,18 @@ export const EditDumpComponent = withTheme(styled(Component)`
   }
 `)
 
-interface EditDumpProps {
+interface DumpEditorProps {
   className: string
   dump?: Dump
   onSave: (dump: Dump) => void
   onCancel: () => void
+}
+
+const propTypes = {
+  className: PropTypes.string.isRequired,
+  dump: PropTypes.shape(dumpShape),
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 interface DumpFieldState {
@@ -38,16 +46,16 @@ interface DumpFieldState {
   error: string | null
 }
 
-interface DumpState {
+interface EditorState {
   currentDump: Dump | null
   summary: DumpFieldState
   description: DumpFieldState
 }
 
-type SetDumpState = React.Dispatch<React.SetStateAction<DumpState>>
+type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>
 
-function Component(props: EditDumpProps) {
-  const initialState: DumpState = {
+function DumpEditorComponent(props: DumpEditorProps) {
+  const initialState: EditorState = {
     currentDump: props.dump || null,
     summary: {
       value: props.dump?.summary || null,
@@ -61,15 +69,15 @@ function Component(props: EditDumpProps) {
     },
   }
 
-  const [state, setState]: [DumpState, SetDumpState] = useState(initialState)
+  const [state, setState]: [EditorState, SetEditorState] = useState(initialState)
   const [saveEnabled, setSaveEnabled]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState(
     false as boolean
   )
 
-  const onFieldChange = (field: keyof DumpState, value: string) => {
+  const onFieldChange = (field: keyof EditorState, value: string) => {
     const hasError = isEmpty(value)
     const error = hasError ? 'Field must not be empty' : null
-    setState((prevState: DumpState) => ({
+    setState((prevState: EditorState) => ({
       ...prevState,
       [field]: { value, hasError, error },
     }))
@@ -83,7 +91,7 @@ function Component(props: EditDumpProps) {
     if (saveEnabled) {
       const dump = createDump(id, summary, description)
       props.onSave(dump)
-      setState((prevState: DumpState) => ({
+      setState((prevState: EditorState) => ({
         ...prevState,
         summary: { ...prevState.summary, value: dump.summary },
         description: { ...prevState.description, value: dump.description },
@@ -165,3 +173,5 @@ function Component(props: EditDumpProps) {
     </>
   )
 }
+
+DumpEditorComponent.propTypes = propTypes

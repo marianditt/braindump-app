@@ -11,8 +11,10 @@ import {
 import styled, { ThemeProps } from 'styled-components'
 import { Menu as MenuIcon } from '@material-ui/icons'
 import React, { MouseEvent, useState } from 'react'
+import PropTypes from 'prop-types'
+import { MenuAction, menuActionShape } from '../types/menu-action-types'
 
-export const AppBar = withTheme(styled(Component)`
+export const AppBar = withTheme(styled(AppBarComponent)`
   flex-grow: 1;
 
   & > div > button:first-child {
@@ -30,12 +32,13 @@ interface AppBarProps {
   actions: MenuAction[]
 }
 
-export interface MenuAction {
-  title: string
-  action: () => void
+const propTypes = {
+  className: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.shape(menuActionShape).isRequired).isRequired,
 }
 
-function Component(props: AppBarProps) {
+function AppBarComponent(props: AppBarProps): JSX.Element {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const onMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -75,3 +78,5 @@ function Component(props: AppBarProps) {
     </ReactAppBar>
   )
 }
+
+AppBarComponent.propTypes = propTypes
