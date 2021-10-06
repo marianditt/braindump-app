@@ -36,7 +36,7 @@ export interface MenuAction {
 }
 
 function Component(props: AppBarProps) {
-  const [anchor, setAnchor] = useState<null | HTMLElement>(null)
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const onMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchor(event.currentTarget)
@@ -64,9 +64,11 @@ function Component(props: AppBarProps) {
           <MenuIcon />
         </IconButton>
 
-        <Menu id="app-menu" anchorEl={anchor} keepMounted open={!!anchor} onClose={onMenuClose}>
-          {menuItems}
-        </Menu>
+        {menuItems.length > 0 ? (
+          <Menu id="app-menu" anchorEl={anchor} keepMounted open={!!anchor} onClose={onMenuClose}>
+            {menuItems}
+          </Menu>
+        ) : null}
 
         <Typography variant="h6">{props.title}</Typography>
       </Toolbar>

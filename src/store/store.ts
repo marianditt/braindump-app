@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk'
-import { dumpReducer } from './dumps'
+import { dumpReducer } from './dump-store'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 export const store = createStore(

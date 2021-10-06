@@ -11,9 +11,9 @@ import {
   withTheme,
 } from '@material-ui/core'
 import React, { ChangeEvent } from 'react'
-import { Dump } from '../store/dumps'
 import styled from 'styled-components'
 import { Delete as DeleteIcon, Search as SearchIcon } from '@material-ui/icons'
+import { Dump } from '../types/dump-types'
 
 export const SearchDumpsComponent = withTheme(styled(Component)``)
 

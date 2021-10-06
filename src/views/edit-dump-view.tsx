@@ -1,8 +1,9 @@
 import { EditDumpComponent } from '../components/edit-dump-component'
 import { useHistory, useParams } from 'react-router-dom'
 import { RootState, useAppSelector } from '../store/store'
-import { Dump, setDump } from '../store/dumps'
+import { updateDump } from '../store/dump-store'
 import { useDispatch } from 'react-redux'
+import { Dump } from '../types/dump-types'
 
 export interface EditDumpRouteParams {
   dumpId: string
@@ -20,7 +21,7 @@ export function EditDumpView() {
   const dispatch = useDispatch<any>()
 
   const onSave = (dump: Dump) => {
-    dispatch(setDump(dump))
+    dispatch(updateDump(dump))
   }
 
   const onCancel = () => {

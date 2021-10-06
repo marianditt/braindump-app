@@ -1,11 +1,11 @@
 import { Button, TextField, Theme, withTheme } from '@material-ui/core'
 import styled, { ThemeProps } from 'styled-components'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
-import { Dump } from '../store/dumps'
 import { isEmpty } from '../validators/string-validators'
 import { createDump } from '../services/create-service'
 import { Save as SaveIcon } from '@material-ui/icons'
 import { EventHandlerBuilder } from './key-event-handler'
+import { Dump } from '../types/dump-types'
 
 export const EditDumpComponent = withTheme(styled(Component)`
   div {
@@ -18,6 +18,10 @@ export const EditDumpComponent = withTheme(styled(Component)`
 
   > div:last-child {
     text-align: right;
+  }
+
+  > div > div > div > TextArea {
+    font-family: monospace;
   }
 `)
 

@@ -1,7 +1,7 @@
 import { useHistory, useParams } from 'react-router-dom'
 import { RootState, useAppSelector } from '../store/store'
-import { Dump } from '../store/dumps'
 import { ShowDumpComponent } from '../components/show-dump-component'
+import { Dump } from '../types/dump-types'
 
 export interface ShowDumpRouteParams {
   dumpId: string

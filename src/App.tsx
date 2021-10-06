@@ -1,34 +1,54 @@
-import React, { StrictMode } from 'react'
+import React, { ChangeEvent, useRef } from 'react'
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
-import { Container, CssBaseline, StylesProvider } from '@material-ui/core'
-import { store } from './store/store'
-import { Provider } from 'react-redux'
+import { Container } from '@material-ui/core'
+import { RootState, store, useAppDispatch } from './store/store'
 import { CreateDumpView } from './views/create-dump-view'
 import { ShowDumpView } from './views/show-dump-view'
 import { FloatingButton } from './components/floating-button'
 import { EditDumpView } from './views/edit-dump-view'
 import { AppBar } from './components/app-bar-component'
-
-const exportAction = () => {
-  const jsonData = window.localStorage.getItem('dumps')
-
-  const fileData = JSON.stringify(jsonData)
-  const blob = new Blob([fileData], { type: 'text/plain' })
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.download = 'braindump.json'
-  link.href = url
-  link.click()
-}
+import { exportState, importState } from './services/import-export-service'
+import { setDumps } from './store/dump-store'
 
 export function App() {
-  const menuActions = [{ title: 'Export', action: exportAction }]
+  const dispatch = useAppDispatch()
 
-  return withAppContext(
-    <Container maxWidth="sm">
+  const exportAction = () => {
+    const state: RootState = store.getState()
+    exportState(state)
+  }
+
+  const inputFile = useRef<HTMLInputElement | null>(null)
+
+  const importAction = () => {
+    inputFile.current?.click()
+  }
+
+  const onFileChoice = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file: File | null = event.target.files?.[0] || null
+    if (file !== null) {
+      const state: RootState = await importState(file)
+      dispatch(setDumps(state.dumps))
+    }
+  }
+
+  const menuActions = [
+    { title: 'Export', action: exportAction },
+    { title: 'Import', action: importAction },
+  ]
+
+  return (
+    <Container>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <AppBar title="Braindump" actions={menuActions} />
+        <input
+          type="file"
+          ref={inputFile}
+          accept={'application/json, .json'}
+          onChange={onFileChoice}
+          style={{ display: 'none' }}
+        />
 
         <Link to="/create">
           <FloatingButton />
@@ -50,16 +70,5 @@ export function App() {
         </Switch>
       </BrowserRouter>
     </Container>
-  )
-}
-
-function withAppContext(element: JSX.Element): JSX.Element {
-  return (
-    <StrictMode>
-      <CssBaseline />
-      <StylesProvider injectFirst>
-        <Provider store={store}>{element}</Provider>
-      </StylesProvider>
-    </StrictMode>
   )
 }

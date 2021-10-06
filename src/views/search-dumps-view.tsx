@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { RootState, useAppSelector } from '../store/store'
-import { Dump, removeDump } from '../store/dumps'
+import { removeDump } from '../store/dump-store'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
 import { SearchDumpsComponent } from '../components/search-dumps-component'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Dump } from '../types/dump-types'
 
 interface SearchState {
   filter: string

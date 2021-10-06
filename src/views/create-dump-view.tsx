@@ -1,8 +1,9 @@
 import { EditDumpComponent } from '../components/edit-dump-component'
-import { addDump, Dump } from '../store/dumps'
+import { addDump } from '../store/dump-store'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { Dump } from '../types/dump-types'
 
 export function CreateDumpView() {
   const history = useHistory<string>()
