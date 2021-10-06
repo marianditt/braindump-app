@@ -40,36 +40,38 @@ export function App() {
   ]
 
   return (
-    <Container>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <AppBar title="Braindump" actions={menuActions} />
-        <input
-          type="file"
-          ref={inputFile}
-          accept={'application/json, .json'}
-          onChange={onFileChoice}
-          style={{ display: 'none' }}
-        />
+    <>
+      <AppBar title="Braindump" actions={menuActions} />
+      <input
+        type="file"
+        ref={inputFile}
+        accept={'application/json, .json'}
+        onChange={onFileChoice}
+        style={{ display: 'none' }}
+      />
 
-        <Link to="/create">
-          <FloatingButton />
-        </Link>
+      <Container maxWidth="xl">
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Link to="/create">
+            <FloatingButton />
+          </Link>
 
-        <Switch>
-          <Route path="/create">
-            <CreateDumpView />
-          </Route>
-          <Route path="/edit/dumps/:dumpId">
-            <EditDumpView />
-          </Route>
-          <Route path="/show/dumps/:dumpId">
-            <ShowDumpView />
-          </Route>
-          <Route path="/">
-            <SearchDumpsView />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </Container>
+          <Switch>
+            <Route path="/create">
+              <CreateDumpView />
+            </Route>
+            <Route path="/edit/dumps/:dumpId">
+              <EditDumpView />
+            </Route>
+            <Route path="/show/dumps/:dumpId">
+              <ShowDumpView />
+            </Route>
+            <Route path="/">
+              <SearchDumpsView />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </Container>
+    </>
   )
 }
