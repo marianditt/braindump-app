@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useRef } from 'react'
-import { Link, Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
 import { Container } from '@material-ui/core'
 import { RootState, store, useAppDispatch } from './store/store'
@@ -16,6 +16,7 @@ import { BackButton } from './components/header/back-button'
 
 export function App() {
   const dispatch = useAppDispatch()
+  const homeMatch = useRouteMatch('/')
   const history = useHistory<string>()
 
   const exportAction = () => {
@@ -46,10 +47,26 @@ export function App() {
     history.goBack()
   }
 
+  const onCreate = () => {
+    navigateTo('/create')
+  }
+
+  const onEdit = (dumpId: string) => {
+    navigateTo(`/edit/dumps/${dumpId}`)
+  }
+
+  const navigateTo = (route: string) => {
+    if (homeMatch?.isExact) {
+      history.push(route)
+    } else {
+      history.replace(route)
+    }
+  }
+
   return (
     <>
       <AppBar title="Braindump">
-        {history.length === 0 ? <MenuButton actions={menuActions} /> : <BackButton onBack={onBack} />}
+        {homeMatch?.isExact ? <MenuButton actions={menuActions} /> : <BackButton onBack={onBack} />}
       </AppBar>
       <input
         type="file"
@@ -60,9 +77,7 @@ export function App() {
       />
 
       <Container maxWidth="xl">
-        <Link to="/create">
-          <FloatingButton />
-        </Link>
+        <FloatingButton onClick={onCreate} />
 
         <Switch>
           <Route path="/create">
@@ -72,7 +87,7 @@ export function App() {
             <EditDumpView />
           </Route>
           <Route path="/show/dumps/:dumpId">
-            <ShowDumpView />
+            <ShowDumpView onEdit={onEdit} />
           </Route>
           <Route path="/">
             <SearchDumpsView />
