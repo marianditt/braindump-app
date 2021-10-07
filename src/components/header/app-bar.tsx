@@ -25,7 +25,7 @@ const propTypes = {
 
 function AppBarComponent(props: AppBarProps): JSX.Element {
   return (
-    <ReactAppBar className={props.className} position="static">
+    <ReactAppBar className={props.className} position="sticky">
       <Toolbar>
         {props.children}
         <Typography variant="h6">{props.title}</Typography>
