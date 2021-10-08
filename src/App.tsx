@@ -44,7 +44,7 @@ export function App() {
   ]
 
   const onBack = () => {
-    history.goBack()
+    navigateTo('/')
   }
 
   const onCreate = () => {
