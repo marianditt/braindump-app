@@ -5,7 +5,7 @@ import { Dump } from '../types/dump-types'
 import PropTypes from 'prop-types'
 
 interface ShowDumpViewProps {
-  onEdit: (dumpId: string) => void
+  onEdit: (dump: Dump) => void
 }
 
 const propTypes = {
@@ -25,7 +25,7 @@ export function ShowDumpView(props: ShowDumpViewProps) {
 
   const onEdit = () => {
     if (dumps.length === 1) {
-      props.onEdit(dumps[0].id)
+      props.onEdit(dumps[0])
     }
   }
 

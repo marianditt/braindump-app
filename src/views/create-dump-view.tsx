@@ -1,22 +1,30 @@
 import { DumpEditor } from '../components/dump-editor'
 import { addDump } from '../store/dump-store'
-import { useHistory } from 'react-router-dom'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Dump } from '../types/dump-types'
+import PropTypes from 'prop-types'
 
-export function CreateDumpView() {
-  const history = useHistory<string>()
+interface CreateDumpViewProps {
+  onSave: (dump: Dump) => void
+  onCancel: () => void
+}
 
+const propTypes = {
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+}
+
+export function CreateDumpView(props: CreateDumpViewProps) {
   const dispatch = useDispatch<any>()
 
   const onSave = (dump: Dump) => {
     dispatch(addDump(dump))
-    history.replace(`/edit/dumps/${dump.id}`)
+    props.onSave(dump)
   }
 
   const onCancel = () => {
-    history.goBack()
+    props.onCancel()
   }
 
   return (
@@ -26,3 +34,5 @@ export function CreateDumpView() {
     </>
   )
 }
+
+CreateDumpView.propTypes = propTypes

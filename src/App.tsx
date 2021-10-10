@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useRef } from 'react'
-import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import { SearchDumpsView } from './views/search-dumps-view'
 import { Container } from '@material-ui/core'
 import { RootState, store, useAppDispatch } from './store/store'
@@ -13,11 +13,18 @@ import { setDumps } from './store/dump-store'
 import { MenuAction } from './types/menu-action-types'
 import { MenuButton } from './components/header/menu-button'
 import { BackButton } from './components/header/back-button'
+import { Dump } from './types/dump-types'
+import { CancelButton } from './components/header/cancel-button'
+
+type Mode = string
+type SetMode = React.Dispatch<React.SetStateAction<Mode>>
 
 export function App() {
   const dispatch = useAppDispatch()
-  const homeMatch = useRouteMatch('/')
   const history = useHistory<string>()
+
+  const initialMode: Mode = 'home'
+  const [mode, setMode]: [Mode, SetMode] = useState(initialMode)
 
   const exportAction = () => {
     const state: RootState = store.getState()
@@ -43,20 +50,38 @@ export function App() {
     { title: 'Import', action: importAction },
   ]
 
-  const onBack = () => {
+  const onHistoryChange = () => {
+    const isHome = history.location.pathname === '/'
+    const isCreate = history.location.pathname.startsWith('/create')
+    const isEdit = history.location.pathname.startsWith('/edit')
+    if (isHome) {
+      setMode('home')
+    } else if (isCreate || isEdit) {
+      setMode('editing')
+    } else {
+      setMode('viewing')
+    }
+  }
+
+  useEffect(() => {
+    onHistoryChange()
+    return history.listen(onHistoryChange)
+  })
+
+  const navigateHome = () => {
     navigateTo('/')
   }
 
-  const onCreate = () => {
+  const navigateToCreate = () => {
     navigateTo('/create')
   }
 
-  const onEdit = (dumpId: string) => {
-    navigateTo(`/edit/dumps/${dumpId}`)
+  const navigateToEdit = (dump: Dump) => {
+    navigateTo(`/edit/dumps/${dump.id}`)
   }
 
   const navigateTo = (route: string) => {
-    if (homeMatch?.isExact) {
+    if (mode === 'home') {
       history.push(route)
     } else {
       history.replace(route)
@@ -66,7 +91,9 @@ export function App() {
   return (
     <>
       <AppBar title="Braindump">
-        {homeMatch?.isExact ? <MenuButton actions={menuActions} /> : <BackButton onBack={onBack} />}
+        {mode === 'home' ? <MenuButton actions={menuActions} /> : null}
+        {mode === 'editing' ? <CancelButton onCancel={navigateHome} /> : null}
+        {mode === 'viewing' ? <BackButton onBack={navigateHome} /> : null}
       </AppBar>
       <input
         type="file"
@@ -77,17 +104,17 @@ export function App() {
       />
 
       <Container maxWidth="xl">
-        <FloatingButton onClick={onCreate} />
+        <FloatingButton onClick={navigateToCreate} />
 
         <Switch>
           <Route path="/create">
-            <CreateDumpView />
+            <CreateDumpView onSave={navigateToEdit} onCancel={navigateHome} />
           </Route>
           <Route path="/edit/dumps/:dumpId">
             <EditDumpView />
           </Route>
           <Route path="/show/dumps/:dumpId">
-            <ShowDumpView onEdit={onEdit} />
+            <ShowDumpView onEdit={navigateToEdit} />
           </Route>
           <Route path="/">
             <SearchDumpsView />
