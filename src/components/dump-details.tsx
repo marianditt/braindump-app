@@ -26,7 +26,7 @@ const propTypes = {
 function DumpDetailsComponent(props: DumpDetailsProps) {
   return (
     <div className={props.className}>
-      <h2>{props.dump.summary}</h2>
+      <h1>{props.dump.summary}</h1>
       <Markdown>{props.dump.description}</Markdown>
     </div>
   )

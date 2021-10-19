@@ -91,7 +91,7 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
       />
 
       <Container maxWidth={false}>
-        <h2>Find dumps</h2>
+        <h1>Find dumps</h1>
         <DumpSearch
           dumps={dumps}
           onSearchFilterChange={onSearchFilterChange}
