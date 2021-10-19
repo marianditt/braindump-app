@@ -1,12 +1,10 @@
-import { Button, TextField, Theme, withTheme } from '@material-ui/core'
+import { TextField, Theme, withTheme } from '@material-ui/core'
 import styled, { ThemeProps } from 'styled-components'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { isEmpty } from '../validators/string-validators'
-import { createDump } from '../services/create-service'
-import { Save as SaveIcon } from '@material-ui/icons'
-import { EventHandlerBuilder } from './key-event-handler'
 import { Dump, dumpShape } from '../types/dump-types'
 import PropTypes from 'prop-types'
+import { createDump } from '../services/create-service'
 
 export const DumpEditor = withTheme(styled(DumpEditorComponent)`
   div {
@@ -29,15 +27,13 @@ export const DumpEditor = withTheme(styled(DumpEditorComponent)`
 interface DumpEditorProps {
   className: string
   dump?: Dump
-  onSave: (dump: Dump) => void
-  onCancel: () => void
+  onChange: (dump: Dump) => void
 }
 
 const propTypes = {
   className: PropTypes.string.isRequired,
   dump: PropTypes.shape(dumpShape),
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 interface DumpFieldState {
@@ -47,7 +43,6 @@ interface DumpFieldState {
 }
 
 interface EditorState {
-  currentDump: Dump | null
   summary: DumpFieldState
   description: DumpFieldState
 }
@@ -56,7 +51,6 @@ type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>
 
 function DumpEditorComponent(props: DumpEditorProps) {
   const initialState: EditorState = {
-    currentDump: props.dump || null,
     summary: {
       value: props.dump?.summary || null,
       hasError: false,
@@ -70,11 +64,15 @@ function DumpEditorComponent(props: DumpEditorProps) {
   }
 
   const [state, setState]: [EditorState, SetEditorState] = useState(initialState)
-  const [saveEnabled, setSaveEnabled]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState(
-    false as boolean
-  )
 
-  const onFieldChange = (field: keyof EditorState, value: string) => {
+  useEffect(() => {
+    const id = props.dump?.id || null
+    const summary = state.summary.value || ''
+    const description = state.description.value || ''
+    props.onChange(createDump(id, summary, description))
+  }, [state])
+
+  function onFieldChange(field: keyof EditorState, value: string): void {
     const hasError = isEmpty(value)
     const error = hasError ? 'Field must not be empty' : null
     setState((prevState: EditorState) => ({
@@ -83,51 +81,9 @@ function DumpEditorComponent(props: DumpEditorProps) {
     }))
   }
 
-  const onSave = () => {
-    const id = state.currentDump?.id || null
-    const summary = state.summary?.value || ''
-    const description = state.description?.value || ''
-
-    if (saveEnabled) {
-      const dump = createDump(id, summary, description)
-      props.onSave(dump)
-      setState((prevState: EditorState) => ({
-        ...prevState,
-        summary: { ...prevState.summary, value: dump.summary },
-        description: { ...prevState.description, value: dump.description },
-        currentDump: dump,
-      }))
-    }
-  }
-
-  const onCancel = () => {
-    props.onCancel()
-  }
-
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  function onSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault()
   }
-
-  const eventHandler = new EventHandlerBuilder().onSave(onSave).onCancel(onCancel).build()
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    eventHandler(event)
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  })
-
-  useEffect(() => {
-    const validSummary = state.summary.value !== null && !state.summary.hasError
-    const validDescription = state.description.value !== null && !state.description.hasError
-    const summaryChanged = state.summary.value?.trim() !== state.currentDump?.summary
-    const descriptionChanged = state.description.value !== state.currentDump?.description
-    setSaveEnabled(validSummary && validDescription && (summaryChanged || descriptionChanged))
-  }, [state])
 
   return (
     <>
@@ -156,18 +112,6 @@ function DumpEditorComponent(props: DumpEditorProps) {
             error={state.description.hasError}
             helperText={state.description.error}
           />
-        </div>
-        <div>
-          <Button
-            disabled={!saveEnabled}
-            onClick={onSave}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SaveIcon />}
-          >
-            Save
-          </Button>
         </div>
       </form>
     </>

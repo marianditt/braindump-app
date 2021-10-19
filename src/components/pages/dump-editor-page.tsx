@@ -1,9 +1,7 @@
 import { DumpEditor } from '../dump-editor'
 import { useParams } from 'react-router-dom'
-import { RootState, useAppSelector } from '../../store/store'
 import { updateDump } from '../../store/dump-store'
 import { useDispatch } from 'react-redux'
-import { Dump } from '../../types/dump-types'
 import { FloatingButton } from '../floating-button'
 import React from 'react'
 import { Container } from '@material-ui/core'
@@ -11,38 +9,50 @@ import { AppBar } from '../header/app-bar'
 import { CancelButton } from '../header/cancel-button'
 import PropTypes from 'prop-types'
 import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigation-hook'
+import { SaveButton } from '../header/save-button'
+import { useCancelShortcut, useSaveShortcut } from '../../hooks/shortcut-hooks'
+import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-hook'
 
 interface DumpEditorPageProps {
   useDumpParam: () => DumpRouteParam
   useNavigation: () => Navigation
+  useEditorState: (dumpId: string) => [EditorState, EditorAction]
+  useDispatch: () => any
 }
 
 const propTypes = {
   useDumpParam: PropTypes.func.isRequired,
   useNavigation: PropTypes.func.isRequired,
+  useEditorState: PropTypes.func.isRequired,
+  useDispatch: PropTypes.func.isRequired,
 }
 
 export function DumpEditorPage(props: DumpEditorPageProps) {
   const routeParams = props.useDumpParam()
   const navigation = props.useNavigation()
+  const [editorState, onDumpChange] = props.useEditorState(routeParams.dumpId)
+  const dispatch = props.useDispatch()
 
-  const dump: Dump | null = useAppSelector(
-    (state: RootState) => state.dumps.find((dump: Dump) => dump.id === routeParams.dumpId) || null
-  )
+  useCancelShortcut(navigation.navigateHome)
+  useSaveShortcut(onSave)
 
-  const dispatch = useDispatch<any>()
-
-  const onSave = (dump: Dump) => {
-    dispatch(updateDump(dump))
+  function onSave(): void {
+    if (editorState.changedDump !== null) {
+      dispatch(updateDump(editorState.changedDump))
+    }
   }
 
   return (
     <>
-      <AppBar title="Braindump" primaryButton={<CancelButton onCancel={navigation.navigateHome} />} />
+      <AppBar
+        title="Braindump"
+        primaryButton={<CancelButton onCancel={navigation.navigateHome} />}
+        secondaryButton={<SaveButton disabled={editorState.saveDisabled} onSave={onSave} />}
+      />
 
       <Container maxWidth={false}>
-        <h1>Edit Dump</h1>
-        <DumpEditor dump={dump} onSave={onSave} onCancel={navigation.navigateHome} />
+        <h1>Edit dump</h1>
+        <DumpEditor dump={editorState.selectedDump} onChange={onDumpChange} />
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>
     </>
@@ -54,4 +64,6 @@ DumpEditorPage.propTypes = propTypes
 DumpEditorPage.defaultProps = {
   useDumpParam: () => useParams<DumpRouteParam>(),
   useNavigation,
+  useEditorState,
+  useDispatch: () => useDispatch<any>(),
 }
