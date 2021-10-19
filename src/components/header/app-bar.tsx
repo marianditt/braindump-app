@@ -14,21 +14,24 @@ export const AppBar = withTheme(styled(AppBarComponent)`
 interface AppBarProps {
   className: string
   title: string
-  children: JSX.Element
+  primaryButton: JSX.Element | null
+  secondaryButton: JSX.Element | null
 }
 
 const propTypes = {
   className: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  primaryButton: PropTypes.node,
+  secondaryButton: PropTypes.node,
 }
 
 function AppBarComponent(props: AppBarProps): JSX.Element {
   return (
     <ReactAppBar className={props.className} position="sticky">
       <Toolbar>
-        {props.children}
+        {props.primaryButton}
         <Typography variant="h6">{props.title}</Typography>
+        {props.secondaryButton}
       </Toolbar>
     </ReactAppBar>
   )

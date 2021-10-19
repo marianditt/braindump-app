@@ -23,7 +23,7 @@ const propTypes = {
 function CancelButtonComponent(props: BackButtonProps) {
   return (
     <div className={props.className}>
-      <IconButton onClick={props.onCancel} edge="start" color="inherit" aria-label="back">
+      <IconButton onClick={props.onCancel} edge="start" color="inherit" aria-label="cancel">
         <CancelIcon />
       </IconButton>
     </div>

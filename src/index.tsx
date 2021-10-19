@@ -6,7 +6,6 @@ import { reportWebVitals } from './reportWebVitals'
 import { CssBaseline, StylesProvider } from '@material-ui/core'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
-import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.render(withAppContext(<App />), document.getElementById('root'))
 
@@ -15,9 +14,7 @@ function withAppContext(element: JSX.Element): JSX.Element {
     <StrictMode>
       <CssBaseline />
       <StylesProvider injectFirst>
-        <Provider store={store}>
-          <BrowserRouter basename={process.env.PUBLIC_URL}>{element}</BrowserRouter>
-        </Provider>
+        <Provider store={store}>{element}</Provider>
       </StylesProvider>
     </StrictMode>
   )
