@@ -8,7 +8,7 @@ import React from 'react'
 import { Container } from '@material-ui/core'
 import { FloatingButton } from '../floating-button'
 import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigation-hook'
-import { useEditShortcut } from '../../hooks/shortcut-hooks'
+import { useCancelShortcut, useEditShortcut } from '../../hooks/shortcut-hooks'
 import { EditButton } from '../header/edit-button'
 import { useDumpByIdSelector } from '../../hooks/dump-selector-hooks'
 
@@ -29,6 +29,7 @@ export function DumpDetailsPage(props: ShowDumpViewProps) {
   const navigation = props.useNavigation()
   const dump = props.useDumpByIdSelector(routeParams.dumpId)
 
+  useCancelShortcut(navigation.navigateHome)
   useEditShortcut(onEdit)
 
   function onEdit(): void {

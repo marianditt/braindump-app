@@ -1,47 +1,41 @@
 import { useEffect } from 'react'
-import { EventHandlerBuilder } from '../components/key-event-handler'
 
 export function useEditShortcut(callback: () => void): void {
-  const eventHandler = new EventHandlerBuilder().onEdit(callback).build()
+  useKeyListener(isEditEvent, callback)
 
-  const onKeyDown = (event: KeyboardEvent) => {
-    eventHandler(event)
+  function isEditEvent(event: KeyboardEvent): boolean {
+    return event.key === 'e'
   }
-
-  useEffect(() => {
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  })
 }
 
 export function useCancelShortcut(callback: () => void): void {
-  const eventHandler = new EventHandlerBuilder().onCancel(callback).build()
+  useKeyListener(isCancelEvent, callback)
 
-  function onKeyDown(event: KeyboardEvent): void {
-    eventHandler(event)
+  function isCancelEvent(event: KeyboardEvent): boolean {
+    return event.key === 'Escape'
   }
-
-  useEffect(() => {
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  })
 }
 
 export function useSaveShortcut(callback: () => void): void {
-  const eventHandler = new EventHandlerBuilder().onSave(callback).build()
+  useKeyListener(isSaveEvent, callback)
 
-  function onKeyDown(event: KeyboardEvent): void {
-    eventHandler(event)
+  function isSaveEvent(event: KeyboardEvent): boolean {
+    return event.ctrlKey && event.key === 's'
   }
+}
 
+function useKeyListener(matches: (event: KeyboardEvent) => boolean, callback: () => void): void {
   useEffect(() => {
     document.addEventListener('keydown', onKeyDown)
     return () => {
       document.removeEventListener('keydown', onKeyDown)
     }
   })
+
+  function onKeyDown(event: KeyboardEvent): void {
+    if (matches(event)) {
+      callback()
+      event.preventDefault()
+    }
+  }
 }
