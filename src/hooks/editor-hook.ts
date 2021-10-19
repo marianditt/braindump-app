@@ -1,7 +1,7 @@
 import { Dump } from '../types/dump-types'
 import { useEffect, useState } from 'react'
 import { isEmpty } from '../validators/string-validators'
-import { RootState, useAppSelector } from '../store/store'
+import { useDumpByIdSelector } from './dump-selector-hooks'
 
 export interface EditorState {
   selectedDump: Dump | null
@@ -12,9 +12,7 @@ export interface EditorState {
 export type EditorAction = (dump: Dump) => void
 
 export function useEditorState(dumpId?: string): [EditorState, EditorAction] {
-  const selectedDump: Dump | null = useAppSelector(
-    (state: RootState) => state.dumps.find((dump: Dump) => dump.id === dumpId) || null
-  )
+  const selectedDump: Dump | null = useDumpByIdSelector(dumpId)
 
   const [editorState, setEditorState] = useState<EditorState>({
     selectedDump,
