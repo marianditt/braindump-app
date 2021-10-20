@@ -27,9 +27,9 @@ interface SearchProps {
 
 const propTypes = {
   dumps: PropTypes.arrayOf(PropTypes.shape(dumpShape).isRequired).isRequired,
-  onSearchFilterChange: PropTypes.func,
-  onDumpSelection: PropTypes.func,
-  onDumpRemoval: PropTypes.func,
+  onSearchFilterChange: PropTypes.func.isRequired,
+  onDumpSelection: PropTypes.func.isRequired,
+  onDumpRemoval: PropTypes.func.isRequired,
 }
 
 function DumpSearchComponent(props: SearchProps) {

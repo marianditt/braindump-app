@@ -14,13 +14,11 @@ export const DumpDetails = withTheme(styled(DumpDetailsComponent)`
 interface DumpDetailsProps {
   className: string
   dump: Dump
-  onEdit: () => void
 }
 
 const propTypes = {
   className: PropTypes.string.isRequired,
   dump: PropTypes.shape(dumpShape).isRequired,
-  onEdit: PropTypes.func,
 }
 
 function DumpDetailsComponent(props: DumpDetailsProps) {

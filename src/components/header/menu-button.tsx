@@ -49,11 +49,11 @@ function MenuButtonComponent(props: MenuButtonProps) {
         <MenuIcon />
       </IconButton>
 
-      {menuItems.length > 0 ? (
+      {menuItems.length > 0 && (
         <Menu id="app-menu" anchorEl={anchor} keepMounted open={!!anchor} onClose={onMenuClose}>
           {menuItems}
         </Menu>
-      ) : null}
+      )}
     </div>
   )
 }

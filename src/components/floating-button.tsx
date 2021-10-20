@@ -15,23 +15,25 @@ export const FloatingButton = withTheme(styled(FloatingButtonComponent)`
 interface FloatingButtonProps {
   className: string
   index?: number
-  onClick?: () => void
+  onClick: () => void
 }
 
 const propTypes = {
   className: PropTypes.string.isRequired,
   index: PropTypes.number,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 }
 
 function FloatingButtonComponent(props: FloatingButtonProps) {
-  const onClick = props.onClick || (() => undefined)
-
   return (
-    <Fab className={props.className} color="primary" aria-label="add" onClick={onClick}>
+    <Fab className={props.className} color="primary" aria-label="add" onClick={props.onClick}>
       <AddIcon />
     </Fab>
   )
 }
 
 FloatingButtonComponent.propTypes = propTypes
+
+FloatingButtonComponent.defaultProps = {
+  onClick: () => {},
+}
