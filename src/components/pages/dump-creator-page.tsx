@@ -4,12 +4,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Container } from '@material-ui/core'
 import { AppBar } from '../header/app-bar'
-import { CancelButton } from '../header/cancel-button'
 import { Navigation, useNavigation } from '../../hooks/navigation-hook'
 import { useCancelShortcut, useSaveShortcut } from '../../hooks/shortcut-hooks'
 import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-hook'
-import { SaveButton } from '../header/save-button'
 import { useDispatch } from 'react-redux'
+import { ActionButton } from '../header/action-button'
 
 interface DumpCreatorPageProps {
   useNavigation: () => Navigation
@@ -42,8 +41,8 @@ export function DumpCreatorPage(props: DumpCreatorPageProps) {
     <>
       <AppBar
         title="Braindump"
-        primaryButton={<CancelButton onCancel={navigation.navigateHome} />}
-        secondaryButton={<SaveButton disabled={editorState.saveDisabled} onSave={onSave} />}
+        primaryButton={<ActionButton action="cancel" onClick={navigation.navigateHome} edge="start" />}
+        secondaryButton={<ActionButton action="save" disabled={editorState.saveDisabled} onClick={onSave} edge="end" />}
       />
 
       <Container maxWidth={false}>

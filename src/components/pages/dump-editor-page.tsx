@@ -6,12 +6,11 @@ import { FloatingButton } from '../floating-button'
 import React from 'react'
 import { Container } from '@material-ui/core'
 import { AppBar } from '../header/app-bar'
-import { CancelButton } from '../header/cancel-button'
 import PropTypes from 'prop-types'
 import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigation-hook'
-import { SaveButton } from '../header/save-button'
 import { useCancelShortcut, useSaveShortcut } from '../../hooks/shortcut-hooks'
 import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-hook'
+import { ActionButton } from '../header/action-button'
 
 interface DumpEditorPageProps {
   useDumpParam: () => DumpRouteParam
@@ -46,8 +45,8 @@ export function DumpEditorPage(props: DumpEditorPageProps) {
     <>
       <AppBar
         title="Braindump"
-        primaryButton={<CancelButton onCancel={navigation.navigateHome} />}
-        secondaryButton={<SaveButton disabled={editorState.saveDisabled} onSave={onSave} />}
+        primaryButton={<ActionButton action="cancel" onClick={navigation.navigateHome} edge="start" />}
+        secondaryButton={<ActionButton action="save" disabled={editorState.saveDisabled} onClick={onSave} edge="end" />}
       />
 
       <Container maxWidth={false}>

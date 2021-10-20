@@ -3,38 +3,49 @@ import { DumpDetails } from '../dump-details'
 import { Dump } from '../../types/dump-types'
 import PropTypes from 'prop-types'
 import { AppBar } from '../header/app-bar'
-import { CancelButton } from '../header/cancel-button'
 import React from 'react'
 import { Container } from '@material-ui/core'
 import { FloatingButton } from '../floating-button'
 import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigation-hook'
 import { useCancelShortcut, useEditShortcut } from '../../hooks/shortcut-hooks'
-import { EditButton } from '../header/edit-button'
 import { useDumpByIdSelector } from '../../hooks/dump-selector-hooks'
+import { ActionButton } from '../header/action-button'
+import { useDispatch } from 'react-redux'
+import { removeDump } from '../../store/dump-store'
 
 interface ShowDumpViewProps {
   useDumpParam: () => DumpRouteParam
   useNavigation: () => Navigation
   useDumpByIdSelector: (dumpId?: string) => Dump | null
+  useDispatch: () => any
 }
 
 const propTypes = {
   useDumpParam: PropTypes.func.isRequired,
   useNavigation: PropTypes.func.isRequired,
   useDumpByIdSelector: PropTypes.func.isRequired,
+  useDispatch: PropTypes.func.isRequired,
 }
 
 export function DumpDetailsPage(props: ShowDumpViewProps) {
   const routeParams = props.useDumpParam()
   const navigation = props.useNavigation()
   const dump = props.useDumpByIdSelector(routeParams.dumpId)
+  const dispatch = props.useDispatch()
 
   useCancelShortcut(navigation.navigateHome)
   useEditShortcut(onEdit)
 
   function onEdit(): void {
-    if (dump != null) {
+    if (dump !== null) {
       navigation.navigateToEdit(dump)
+    }
+  }
+
+  function onDelete(): void {
+    if (dump !== null) {
+      dispatch(removeDump(dump))
+      navigation.navigateHome()
     }
   }
 
@@ -42,12 +53,17 @@ export function DumpDetailsPage(props: ShowDumpViewProps) {
     <>
       <AppBar
         title="Braindump"
-        primaryButton={<CancelButton onCancel={navigation.navigateHome} />}
-        secondaryButton={<EditButton onEdit={onEdit} />}
+        primaryButton={<ActionButton action="back" onClick={navigation.navigateHome} edge="start" />}
+        secondaryButton={
+          <>
+            <ActionButton action="edit" disabled={dump === null} onClick={onEdit} edge="end" />
+            <ActionButton action="delete" disabled={dump === null} onClick={onDelete} edge="end" />
+          </>
+        }
       />
 
       <Container maxWidth={false}>
-        {dump !== null && <DumpDetails dump={dump} onEdit={() => navigation.navigateToEdit(dump)} />}
+        {dump !== null && <DumpDetails dump={dump} />}
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>
     </>
@@ -60,4 +76,5 @@ DumpDetailsPage.defaultProps = {
   useDumpParam: () => useParams<DumpRouteParam>(),
   useNavigation,
   useDumpByIdSelector,
+  useDispatch: () => useDispatch<any>(),
 }
