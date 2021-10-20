@@ -15,10 +15,6 @@ export const DumpEditor = withTheme(styled(DumpEditorComponent)`
     margin: ${(props: ThemeProps<Theme>) => props.theme.spacing(2, 0, 2)};
   }
 
-  > div:last-child {
-    text-align: right;
-  }
-
   > div > div > div > TextArea {
     font-family: monospace;
   }
@@ -86,35 +82,32 @@ function DumpEditorComponent(props: DumpEditorProps) {
   }
 
   return (
-    <>
-      <form className={props.className} noValidate autoComplete="off" onSubmit={onSubmit}>
-        <div>
-          <TextField
-            id="summary"
-            label="Summary"
-            variant="outlined"
-            value={state.summary.value || ''}
-            autoFocus
-            onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
-            error={state.summary.hasError}
-            helperText={state.summary.error}
-          />
-        </div>
-        <div>
-          <TextField
-            id="description"
-            label="Description"
-            variant="outlined"
-            value={state.description.value || ''}
-            multiline
-            rows={12}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
-            error={state.description.hasError}
-            helperText={state.description.error}
-          />
-        </div>
-      </form>
-    </>
+    <form className={props.className} noValidate autoComplete="off" onSubmit={onSubmit}>
+      <div>
+        <TextField
+          id="summary"
+          label="Summary"
+          variant="outlined"
+          value={state.summary.value || ''}
+          autoFocus
+          onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
+          error={state.summary.hasError}
+          helperText={state.summary.error}
+        />
+      </div>
+      <div>
+        <TextField
+          id="description"
+          label="Description"
+          variant="outlined"
+          value={state.description.value || ''}
+          multiline
+          onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
+          error={state.description.hasError}
+          helperText={state.description.error}
+        />
+      </div>
+    </form>
   )
 }
 

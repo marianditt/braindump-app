@@ -1,11 +1,11 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import { App } from './App'
 import { reportWebVitals } from './reportWebVitals'
 import { CssBaseline, StylesProvider } from '@material-ui/core'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
+import { GlobalStyle } from './global-styles'
 
 ReactDOM.render(withAppContext(<App />), document.getElementById('root'))
 
@@ -14,6 +14,7 @@ function withAppContext(element: JSX.Element): JSX.Element {
     <StrictMode>
       <CssBaseline />
       <StylesProvider injectFirst>
+        <GlobalStyle />
         <Provider store={store}>{element}</Provider>
       </StylesProvider>
     </StrictMode>
