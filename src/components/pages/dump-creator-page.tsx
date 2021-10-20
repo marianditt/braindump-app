@@ -32,7 +32,7 @@ export function DumpCreatorPage(props: DumpCreatorPageProps) {
   useSaveShortcut(onSave)
 
   function onSave(): void {
-    if (editorState.changedDump !== null) {
+    if (!editorState.saveDisabled && editorState.changedDump !== null) {
       dispatch(addDump(editorState.changedDump))
       navigation.navigateToEdit(editorState.changedDump)
     }
