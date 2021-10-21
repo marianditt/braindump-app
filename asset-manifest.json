@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/braindump-app/static/js/main.da913227.chunk.js",
-    "main.js.map": "/braindump-app/static/js/main.da913227.chunk.js.map",
+    "main.js": "/braindump-app/static/js/main.c7ff1baf.chunk.js",
+    "main.js.map": "/braindump-app/static/js/main.c7ff1baf.chunk.js.map",
     "runtime-main.js": "/braindump-app/static/js/runtime-main.caf298e7.js",
     "runtime-main.js.map": "/braindump-app/static/js/runtime-main.caf298e7.js.map",
     "static/js/2.8e4eea10.chunk.js": "/braindump-app/static/js/2.8e4eea10.chunk.js",
@@ -14,6 +14,6 @@
   "entrypoints": [
     "static/js/runtime-main.caf298e7.js",
     "static/js/2.8e4eea10.chunk.js",
-    "static/js/main.da913227.chunk.js"
+    "static/js/main.c7ff1baf.chunk.js"
   ]
 }
