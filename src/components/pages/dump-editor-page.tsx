@@ -30,7 +30,7 @@ const propTypes = {
 export function DumpEditorPage(props: DumpEditorPageProps) {
   const routeParams = props.useDumpParam()
   const navigation = props.useNavigation()
-  const [editorState, onDumpChange] = props.useEditorState(routeParams.dumpId)
+  const [editorState, onChange] = props.useEditorState(routeParams.dumpId)
   const dispatch = props.useDispatch()
 
   useCancelShortcut(navigation.navigateHome)
@@ -52,7 +52,7 @@ export function DumpEditorPage(props: DumpEditorPageProps) {
 
       <Container maxWidth={false}>
         <h1>Edit dump</h1>
-        <DumpEditor dump={editorState.selectedDump} onChange={onDumpChange} />
+        <DumpEditor dump={editorState.selectedDump} onChange={onChange} />
         {editorState.changedDump !== null && <DumpDetails dump={editorState.changedDump} />}
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>

@@ -46,6 +46,8 @@ interface EditorState {
 type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>
 
 function DumpEditorComponent(props: DumpEditorProps) {
+  const { dump, onChange } = props
+
   const initialState: EditorState = {
     summary: {
       value: props.dump?.summary || null,
@@ -62,11 +64,11 @@ function DumpEditorComponent(props: DumpEditorProps) {
   const [state, setState]: [EditorState, SetEditorState] = useState(initialState)
 
   useEffect(() => {
-    const id = props.dump?.id || null
+    const id = dump?.id || null
     const summary = state.summary.value || ''
     const description = state.description.value || ''
-    props.onChange(createDump(id, summary, description))
-  }, [state])
+    onChange(createDump(id, summary, description))
+  }, [state, dump?.id, onChange])
 
   function onFieldChange(field: keyof EditorState, value: string): void {
     const hasError = isEmpty(value)

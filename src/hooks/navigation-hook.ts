@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom'
 import { Dump } from '../types/dump-types'
+import { useCallback } from 'react'
 
 export interface DumpRouteParam {
   dumpId: string
@@ -15,30 +16,39 @@ export interface Navigation {
 export function useNavigation(): Navigation {
   const history = useHistory<string>()
 
-  function navigateHome(): void {
+  const navigateTo = useCallback(
+    (route: string): void => {
+      const isHome = history.location.pathname === '/'
+      if (isHome) {
+        history.push(route)
+      } else {
+        history.replace(route)
+      }
+    },
+    [history]
+  )
+
+  const navigateHome = useCallback((): void => {
     navigateTo('/')
-  }
+  }, [navigateTo])
 
-  function navigateToDetails(dump: Dump): void {
-    history.push(`/show/dumps/${dump.id}`)
-  }
+  const navigateToDetails = useCallback(
+    (dump: Dump): void => {
+      navigateTo(`/show/dumps/${dump.id}`)
+    },
+    [navigateTo]
+  )
 
-  function navigateToCreate(): void {
+  const navigateToCreate = useCallback((): void => {
     navigateTo('/create')
-  }
+  }, [navigateTo])
 
-  function navigateToEdit(dump: Dump): void {
-    navigateTo(`/edit/dumps/${dump.id}`)
-  }
-
-  function navigateTo(route: string): void {
-    const isHome = history.location.pathname === '/'
-    if (isHome) {
-      history.push(route)
-    } else {
-      history.replace(route)
-    }
-  }
+  const navigateToEdit = useCallback(
+    (dump: Dump): void => {
+      navigateTo(`/edit/dumps/${dump.id}`)
+    },
+    [navigateTo]
+  )
 
   return {
     navigateHome,
