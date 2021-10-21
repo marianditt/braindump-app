@@ -1,0 +1,37 @@
+import { IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, withTheme } from '@material-ui/core'
+import React from 'react'
+import styled from 'styled-components'
+import { Delete as DeleteIcon } from '@material-ui/icons'
+import { Dump, dumpShape } from '../types/dump-types'
+import PropTypes from 'prop-types'
+
+export const DumpSearchResults = withTheme(styled(DumpSearchComponent)``)
+
+interface SearchProps {
+  dumps: Dump[]
+  onDumpSelection: (dump: Dump) => void
+  onDumpRemoval: (dump: Dump) => void
+}
+
+const propTypes = {
+  dumps: PropTypes.arrayOf(PropTypes.shape(dumpShape).isRequired).isRequired,
+  onDumpSelection: PropTypes.func.isRequired,
+  onDumpRemoval: PropTypes.func.isRequired,
+}
+
+function DumpSearchComponent(props: SearchProps) {
+  const listItems = props.dumps.map((dump: Dump) => (
+    <ListItem key={dump.id} button onClick={() => props.onDumpSelection(dump)}>
+      <ListItemText primary={dump.summary} secondary={new Date(dump.timestamp).toLocaleString()} />
+      <ListItemSecondaryAction onClick={() => props.onDumpRemoval(dump)}>
+        <IconButton edge="end" aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
+  ))
+
+  return <>{props.dumps.length > 0 && <List>{listItems}</List>}</>
+}
+
+DumpSearchComponent.propTypes = propTypes

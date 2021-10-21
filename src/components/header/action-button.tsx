@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 export const ActionButton = withTheme(styled(ActionButtonComponent)``)
 
-interface BackButtonProps {
+interface ActionButtonProps {
   className: string
   action: 'back' | 'cancel' | 'delete' | 'edit' | 'save'
   disabled: boolean
@@ -22,7 +22,7 @@ const propTypes = {
   edge: PropTypes.oneOf(['start', 'end']).isRequired,
 }
 
-function ActionButtonComponent(props: BackButtonProps): JSX.Element {
+function ActionButtonComponent(props: ActionButtonProps): JSX.Element {
   function selectIcon(): JSX.Element | null {
     switch (props.action) {
       case 'back':

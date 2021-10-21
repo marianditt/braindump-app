@@ -2,7 +2,8 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import { RootState, store, useAppSelector } from '../../store/store'
 import { removeDump, setDumps } from '../../store/dump-store'
 import { createSearchHash, scoreSearchResult } from '../../services/search-service'
-import { DumpSearch } from '../dump-search'
+import { DumpSearchFilter } from '../dump-search-filter'
+import { DumpSearchResults } from '../dump-search-results'
 import { useDispatch } from 'react-redux'
 import { Dump } from '../../types/dump-types'
 import { AppBar } from '../header/app-bar'
@@ -92,13 +93,8 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
 
       <Container maxWidth={false}>
         <h1>Find dumps</h1>
-        <DumpSearch
-          dumps={dumps}
-          onSearchFilterChange={onSearchFilterChange}
-          onDumpSelection={navigation.navigateToDetails}
-          onDumpRemoval={onDumpRemoval}
-        />
-
+        <DumpSearchFilter onChange={onSearchFilterChange} />
+        <DumpSearchResults dumps={dumps} onDumpSelection={navigation.navigateToDetails} onDumpRemoval={onDumpRemoval} />
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>
     </>
