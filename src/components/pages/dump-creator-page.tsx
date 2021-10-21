@@ -9,6 +9,7 @@ import { useCancelShortcut, useSaveShortcut } from '../../hooks/shortcut-hooks'
 import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-hook'
 import { useDispatch } from 'react-redux'
 import { ActionButton } from '../header/action-button'
+import { DumpDetails } from '../dump-details'
 
 interface DumpCreatorPageProps {
   useNavigation: () => Navigation
@@ -48,6 +49,7 @@ export function DumpCreatorPage(props: DumpCreatorPageProps) {
       <Container maxWidth={false}>
         <h1>Create new dump</h1>
         <DumpEditor dump={editorState.selectedDump} onChange={onDumpChange} />
+        {editorState.changedDump !== null && <DumpDetails dump={editorState.changedDump} />}
       </Container>
     </>
   )

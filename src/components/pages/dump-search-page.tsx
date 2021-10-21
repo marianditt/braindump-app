@@ -94,7 +94,13 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
       <Container maxWidth={false}>
         <h1>Find dumps</h1>
         <DumpSearchFilter onChange={onSearchFilterChange} />
-        <DumpSearchResults dumps={dumps} onDumpSelection={navigation.navigateToDetails} onDumpRemoval={onDumpRemoval} />
+        {dumps.length > 0 && (
+          <DumpSearchResults
+            dumps={dumps}
+            onDumpSelection={navigation.navigateToDetails}
+            onDumpRemoval={onDumpRemoval}
+          />
+        )}
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>
     </>

@@ -11,6 +11,7 @@ import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigatio
 import { useCancelShortcut, useSaveShortcut } from '../../hooks/shortcut-hooks'
 import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-hook'
 import { ActionButton } from '../header/action-button'
+import { DumpDetails } from '../dump-details'
 
 interface DumpEditorPageProps {
   useDumpParam: () => DumpRouteParam
@@ -52,6 +53,7 @@ export function DumpEditorPage(props: DumpEditorPageProps) {
       <Container maxWidth={false}>
         <h1>Edit dump</h1>
         <DumpEditor dump={editorState.selectedDump} onChange={onDumpChange} />
+        {editorState.changedDump !== null && <DumpDetails dump={editorState.changedDump} />}
         <FloatingButton onClick={navigation.navigateToCreate} />
       </Container>
     </>

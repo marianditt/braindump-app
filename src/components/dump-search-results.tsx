@@ -31,7 +31,7 @@ function DumpSearchComponent(props: SearchProps) {
     </ListItem>
   ))
 
-  return <>{props.dumps.length > 0 && <List>{listItems}</List>}</>
+  return <List>{listItems}</List>
 }
 
 DumpSearchComponent.propTypes = propTypes
