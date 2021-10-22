@@ -1,10 +1,11 @@
-import { TextField, Theme, withTheme } from '@material-ui/core'
+import { Theme, withTheme } from '@material-ui/core'
 import styled, { ThemeProps } from 'styled-components'
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { isEmpty } from '../validators/string-validators'
 import { Dump, dumpShape } from '../types/dump-types'
 import PropTypes from 'prop-types'
 import { createDump } from '../services/create-service'
+import { AdvancedInput } from './input/advanced-input'
 
 export const DumpEditor = withTheme(styled(DumpEditorComponent)`
   div {
@@ -34,7 +35,6 @@ const propTypes = {
 
 interface DumpFieldState {
   value: string | null
-  hasError: boolean
   error: string | null
 }
 
@@ -51,12 +51,10 @@ function DumpEditorComponent(props: DumpEditorProps) {
   const initialState: EditorState = {
     summary: {
       value: props.dump?.summary || null,
-      hasError: false,
       error: null,
     },
     description: {
       value: props.dump?.description || null,
-      hasError: false,
       error: null,
     },
   }
@@ -86,27 +84,20 @@ function DumpEditorComponent(props: DumpEditorProps) {
   return (
     <form className={props.className} noValidate autoComplete="off" onSubmit={onSubmit}>
       <div>
-        <TextField
-          id="summary"
+        <AdvancedInput
           label="Summary"
-          variant="outlined"
           value={state.summary.value || ''}
-          autoFocus
-          onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('summary', event.target.value)}
-          error={state.summary.hasError}
-          helperText={state.summary.error}
+          onChange={(value: string) => onFieldChange('summary', value)}
+          error={state.summary.error}
         />
       </div>
       <div>
-        <TextField
-          id="description"
+        <AdvancedInput
           label="Description"
-          variant="outlined"
           value={state.description.value || ''}
+          onChange={(value: string) => onFieldChange('description', value)}
+          error={state.description.error}
           multiline
-          onChange={(event: ChangeEvent<HTMLInputElement>) => onFieldChange('description', event.target.value)}
-          error={state.description.hasError}
-          helperText={state.description.error}
         />
       </div>
     </form>
