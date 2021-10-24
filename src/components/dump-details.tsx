@@ -1,14 +1,12 @@
-import { withTheme } from '@material-ui/core'
-import styled from 'styled-components'
+import { Card, CardContent, Theme, Typography, withTheme } from '@material-ui/core'
+import styled, { ThemeProps } from 'styled-components'
 import React from 'react'
-import Markdown from 'react-markdown'
 import { Dump, dumpShape } from '../types/dump-types'
 import PropTypes from 'prop-types'
+import { DumpDetailsContent } from './dump-details-content'
 
 export const DumpDetails = withTheme(styled(DumpDetailsComponent)`
-  > div:last-child {
-    text-align: right;
-  }
+  margin: ${(props: ThemeProps<Theme>) => props.theme.spacing(2, 0, 2)};
 `)
 
 interface DumpDetailsProps {
@@ -23,10 +21,12 @@ const propTypes = {
 
 function DumpDetailsComponent(props: DumpDetailsProps) {
   return (
-    <div className={props.className}>
-      <h1>{props.dump.summary}</h1>
-      <Markdown>{props.dump.description}</Markdown>
-    </div>
+    <Card className={props.className}>
+      <CardContent>
+        <Typography variant="h6">{props.dump.summary}</Typography>
+        <DumpDetailsContent content={props.dump.description} />
+      </CardContent>
+    </Card>
   )
 }
 

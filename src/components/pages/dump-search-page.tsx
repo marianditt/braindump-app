@@ -11,9 +11,9 @@ import { MenuButton } from '../header/menu-button'
 import { exportState, importState } from '../../services/import-export-service'
 import { MenuAction } from '../../types/menu-action-types'
 import { FloatingButton } from '../floating-button'
-import { Container } from '@material-ui/core'
 import { Navigation, useNavigation } from '../../hooks/navigation-hook'
 import PropTypes from 'prop-types'
+import { PageContent } from './page-content'
 
 interface DumpSearchPageProps {
   useNavigation: () => Navigation
@@ -91,8 +91,7 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
         style={{ display: 'none' }}
       />
 
-      <Container maxWidth={false}>
-        <h1>Find dumps</h1>
+      <PageContent title="Find dumps">
         <DumpSearchFilter onChange={onSearchFilterChange} />
         {dumps.length > 0 && (
           <DumpSearchResults
@@ -102,7 +101,7 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
           />
         )}
         <FloatingButton onClick={navigation.navigateToCreate} />
-      </Container>
+      </PageContent>
     </>
   )
 }

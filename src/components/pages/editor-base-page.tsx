@@ -1,7 +1,6 @@
 import { DumpEditor } from '../dump-editor'
 import { FloatingButton } from '../floating-button'
 import React from 'react'
-import { Container } from '@material-ui/core'
 import { AppBar } from '../header/app-bar'
 import PropTypes from 'prop-types'
 import { Navigation, useNavigation } from '../../hooks/navigation-hook'
@@ -10,6 +9,7 @@ import { EditorAction, EditorState, useEditorState } from '../../hooks/editor-ho
 import { ActionButton } from '../header/action-button'
 import { DumpDetails } from '../dump-details'
 import { Dump, dumpShape } from '../../types/dump-types'
+import { PageContent } from './page-content'
 
 interface EditorBaseProps {
   title: string
@@ -50,12 +50,11 @@ export function EditorBase(props: EditorBaseProps) {
         secondaryButton={<ActionButton action="save" disabled={editorState.saveDisabled} onClick={onSave} edge="end" />}
       />
 
-      <Container maxWidth={false}>
-        <h1>{props.title}</h1>
+      <PageContent title={props.title}>
         <DumpEditor dump={editorState.selectedDump} onChange={onChange} />
         {editorState.changedDump !== null && <DumpDetails dump={editorState.changedDump} />}
         {editorState.selectedDump !== null && <FloatingButton onClick={navigation.navigateToCreate} />}
-      </Container>
+      </PageContent>
     </>
   )
 }

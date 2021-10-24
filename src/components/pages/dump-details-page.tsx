@@ -4,7 +4,6 @@ import { Dump } from '../../types/dump-types'
 import PropTypes from 'prop-types'
 import { AppBar } from '../header/app-bar'
 import React from 'react'
-import { Container } from '@material-ui/core'
 import { FloatingButton } from '../floating-button'
 import { DumpRouteParam, Navigation, useNavigation } from '../../hooks/navigation-hook'
 import { useCancelShortcut, useEditShortcut } from '../../hooks/shortcut-hooks'
@@ -12,6 +11,7 @@ import { useDumpByIdSelector } from '../../hooks/dump-selector-hooks'
 import { ActionButton } from '../header/action-button'
 import { useDispatch } from 'react-redux'
 import { removeDump } from '../../store/dump-store'
+import { PageContent } from './page-content'
 
 interface ShowDumpViewProps {
   useDumpParam: () => DumpRouteParam
@@ -62,10 +62,10 @@ export function DumpDetailsPage(props: ShowDumpViewProps) {
         }
       />
 
-      <Container maxWidth={false}>
+      <PageContent>
         {dump !== null && <DumpDetails dump={dump} />}
         <FloatingButton onClick={navigation.navigateToCreate} />
-      </Container>
+      </PageContent>
     </>
   )
 }
