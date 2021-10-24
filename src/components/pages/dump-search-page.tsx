@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
-import { RootState, store, useAppSelector } from '../../store/store'
+import { RootState, store, useAppDispatch } from '../../store/store'
 import { removeDump, setDumps } from '../../store/dump-store'
-import { createSearchHash, scoreSearchResult } from '../../services/search-service'
 import { DumpSearchFilter } from '../dump-search-filter'
 import { DumpSearchResults } from '../dump-search-results'
-import { useDispatch } from 'react-redux'
 import { Dump } from '../../types/dump-types'
 import { AppBar } from '../header/app-bar'
 import { MenuButton } from '../header/menu-button'
@@ -14,13 +12,18 @@ import { FloatingButton } from '../floating-button'
 import { Navigation, useNavigation } from '../../hooks/navigation-hook'
 import PropTypes from 'prop-types'
 import { PageContent } from './page-content'
+import { useDumpByFilterSelector } from '../../hooks/dump-selector-hooks'
 
 interface DumpSearchPageProps {
+  useDumpByFilterSelector: (filter: string) => Dump[]
   useNavigation: () => Navigation
+  useDispatch: () => any
 }
 
 const propTypes = {
+  useDumpByFilterSelector: PropTypes.func.isRequired,
   useNavigation: PropTypes.func.isRequired,
+  useDispatch: PropTypes.func.isRequired,
 }
 
 interface SearchState {
@@ -40,12 +43,9 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
 
   const [state, setState]: [SearchState, SetSearchState] = useState(initialState)
 
-  const dumps = useAppSelector((globalState: RootState): Dump[] => {
-    const scores = globalState.dumps.map((dump: Dump) => scoreDump(dump, state.filter))
-    return filterDumps(globalState.dumps, scores)
-  })
+  const dumps = props.useDumpByFilterSelector(state.filter)
 
-  const dispatch = useDispatch<any>()
+  const dispatch = props.useDispatch()
 
   const exportAction = () => {
     const state: RootState = store.getState()
@@ -109,23 +109,7 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
 DumpSearchPage.propTypes = propTypes
 
 DumpSearchPage.defaultProps = {
+  useDumpByFilterSelector,
   useNavigation,
-}
-
-function scoreDump(dump: Dump, filter: string): number {
-  const searchableDump = createSearchHash(dump.summary, dump.description, ...dump.tags)
-  const searchableFilter = createSearchHash(filter)
-  return scoreSearchResult(searchableDump, searchableFilter)
-}
-
-function filterDumps(dumps: Dump[], scores: number[]): Dump[] {
-  const maxScore = Math.max(...scores)
-  if (maxScore === 0) {
-    return []
-  }
-
-  const maxIndexes = scores
-    .map((score: number, index: number) => (score === maxScore ? index : -1))
-    .filter((index: number) => index >= 0)
-  return maxIndexes.map((index: number) => dumps[index])
+  useDispatch: useAppDispatch,
 }
