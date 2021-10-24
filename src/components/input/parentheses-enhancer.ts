@@ -1,23 +1,34 @@
 import { InputState } from './advanced-input-types'
 
-const pairs = [
-  ['(', ')'],
-  ['[', ']'],
-  ['{', '}'],
-  ['<', '>'],
-  ['"', '"'],
-  ["'", "'"],
-]
+const pairs = createPairs()
+const invPairs = invertPairs(pairs)
+
+function createPairs(): Map<string, string> {
+  const map = new Map<string, string>()
+  map.set('(', ')')
+  map.set('[', ']')
+  map.set('{', '}')
+  map.set('<', '>')
+  map.set('"', '"')
+  map.set("'", "'")
+  return map
+}
+
+function invertPairs(map: Map<string, string>): Map<string, string> {
+  const invMap = new Map<string, string>()
+  map.forEach((value, key) => invMap.set(value, key))
+  return invMap
+}
 
 export function openParentheses(key: string, state: InputState): InputState | null {
-  const pair = pairs.find((pair) => pair[0] === key) || null
-  if (pair === null) {
+  const value = pairs.get(key) || null
+  if (value === null) {
     return null
   }
 
   const [prefix, selection, suffix] = split(state.value, state.start, state.end)
   return {
-    value: prefix + pair[0] + selection + pair[1] + suffix,
+    value: prefix + key + selection + value + suffix,
     start: prefix.length + 1,
     end: prefix.length + 1 + selection.length,
     direction: state.direction,
@@ -30,7 +41,7 @@ export function closeParentheses(key: string, state: InputState): InputState | n
     return null
   }
 
-  const isClosing = pairs.some((pair) => pair[1] === ch)
+  const isClosing = !!invPairs.get(ch)
   if (!isClosing) {
     return null
   }
@@ -49,7 +60,7 @@ export function removeParentheses(key: string, state: InputState): InputState | 
   }
 
   const [prefix, pairAtCursor, suffix] = split(state.value, state.start - 1, state.start + 1)
-  const isPair = pairs.some((pair) => pair[0] === pairAtCursor[0] && pair[1] === pairAtCursor[1])
+  const isPair = !!pairs.get(pairAtCursor[0]) && !!invPairs.get(pairAtCursor[1])
   if (!isPair) {
     return null
   }
