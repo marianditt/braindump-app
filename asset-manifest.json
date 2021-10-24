@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/braindump-app/static/js/main.d5e42ec3.chunk.js",
-    "main.js.map": "/braindump-app/static/js/main.d5e42ec3.chunk.js.map",
-    "runtime-main.js": "/braindump-app/static/js/runtime-main.caf298e7.js",
-    "runtime-main.js.map": "/braindump-app/static/js/runtime-main.caf298e7.js.map",
-    "static/js/2.5f6fc61c.chunk.js": "/braindump-app/static/js/2.5f6fc61c.chunk.js",
-    "static/js/2.5f6fc61c.chunk.js.map": "/braindump-app/static/js/2.5f6fc61c.chunk.js.map",
-    "static/js/3.4937fbb8.chunk.js": "/braindump-app/static/js/3.4937fbb8.chunk.js",
-    "static/js/3.4937fbb8.chunk.js.map": "/braindump-app/static/js/3.4937fbb8.chunk.js.map",
+    "main.js": "/braindump-app/static/js/main.abcb5d01.chunk.js",
+    "main.js.map": "/braindump-app/static/js/main.abcb5d01.chunk.js.map",
+    "runtime-main.js": "/braindump-app/static/js/runtime-main.3cc1e62c.js",
+    "runtime-main.js.map": "/braindump-app/static/js/runtime-main.3cc1e62c.js.map",
+    "static/js/2.a8f32bb5.chunk.js": "/braindump-app/static/js/2.a8f32bb5.chunk.js",
+    "static/js/2.a8f32bb5.chunk.js.map": "/braindump-app/static/js/2.a8f32bb5.chunk.js.map",
+    "static/js/3.786fbb4c.chunk.js": "/braindump-app/static/js/3.786fbb4c.chunk.js",
+    "static/js/3.786fbb4c.chunk.js.map": "/braindump-app/static/js/3.786fbb4c.chunk.js.map",
     "index.html": "/braindump-app/index.html",
-    "static/js/2.5f6fc61c.chunk.js.LICENSE.txt": "/braindump-app/static/js/2.5f6fc61c.chunk.js.LICENSE.txt"
+    "static/js/2.a8f32bb5.chunk.js.LICENSE.txt": "/braindump-app/static/js/2.a8f32bb5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.caf298e7.js",
-    "static/js/2.5f6fc61c.chunk.js",
-    "static/js/main.d5e42ec3.chunk.js"
+    "static/js/runtime-main.3cc1e62c.js",
+    "static/js/2.a8f32bb5.chunk.js",
+    "static/js/main.abcb5d01.chunk.js"
   ]
 }
