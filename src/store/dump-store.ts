@@ -15,22 +15,63 @@ interface DumpAction extends Action {
 }
 
 const DumpActionType = {
-  SET_DUMPS: 'SET_DUMPS',
+  MERGE_DUMPS: 'MERGE_DUMPS',
   ADD_DUMP: 'ADD_DUMP',
   UPDATE_DUMP: 'UPDATE_DUMP',
   REMOVE_DUMP: 'REMOVE_DUMP',
 }
 
-export function setDumps(dumps: Dump[]): any {
-  const setDumpAction: DumpListAction = {
-    type: DumpActionType.SET_DUMPS,
+export function mergeDumps(dumps: Dump[]): any {
+  const mergeDumpsAction: DumpListAction = {
+    type: DumpActionType.MERGE_DUMPS,
     dumps: dumps,
   }
 
   return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>): void => {
-    dispatch(setDumpAction)
+    dispatch(mergeDumpsAction)
     const newState: Dump[] = getState()
     postDumps(newState)
+  }
+}
+
+function resolveMergeConflict(left: Dump | null, right: Dump): Dump {
+  if (left === null) {
+    return right
+  }
+
+  const [mergedSummary, hasSummaryConflict] = resolveSummaryMergeConflict(left.summary, right.summary)
+  const [mergedDescription, hasDescriptionConflict] = resolveDescriptionMergeConflict(
+    left.description,
+    right.description
+  )
+  const prefix = hasSummaryConflict || hasDescriptionConflict ? 'CONFLICT: ' : ''
+
+  const tags = new Map<string, boolean>()
+  left.tags.forEach((tag) => tags.set(tag, true))
+  right.tags.forEach((tag) => tags.set(tag, true))
+
+  return {
+    id: left.id,
+    summary: prefix + mergedSummary,
+    description: mergedDescription,
+    tags: Array.from(tags.keys()),
+    timestamp: Math.min(left.timestamp, right.timestamp),
+  }
+}
+
+function resolveSummaryMergeConflict(left: string, right: string): [string, boolean] {
+  if (left === right) {
+    return [left, false]
+  } else {
+    return [`${left} --- ${right}`, true]
+  }
+}
+
+function resolveDescriptionMergeConflict(left: string, right: string): [string, boolean] {
+  if (left === right) {
+    return [left, false]
+  } else {
+    return [`${left}\n\n---\n\n${right}`, true]
   }
 }
 
@@ -76,8 +117,11 @@ export function removeDump(dump: Dump): any {
 const initialState = findAllDumps()
 
 export function dumpReducer(state: Dump[] = initialState, action: Action): Dump[] {
-  function setDumpsAction(dumps: Dump[]): Dump[] {
-    return [...dumps]
+  function mergeDumpsAction(dumps: Dump[]): Dump[] {
+    const merge = new Map<string, Dump>()
+    state.forEach((dump) => merge.set(dump.id, dump))
+    dumps.forEach((dump) => merge.set(dump.id, resolveMergeConflict(merge.get(dump.id) || null, dump)))
+    return Array.from(merge.values())
   }
 
   function addDumpAction(state: Dump[], dump: Dump): Dump[] {
@@ -100,9 +144,9 @@ export function dumpReducer(state: Dump[] = initialState, action: Action): Dump[
   }
 
   switch (action.type) {
-    case DumpActionType.SET_DUMPS: {
+    case DumpActionType.MERGE_DUMPS: {
       const dumpListAction = action as DumpListAction
-      return setDumpsAction(dumpListAction.dumps)
+      return mergeDumpsAction(dumpListAction.dumps)
     }
     case DumpActionType.ADD_DUMP: {
       const dumpAction = action as DumpAction

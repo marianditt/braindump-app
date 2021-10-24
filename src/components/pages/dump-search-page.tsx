@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { RootState, store, useAppDispatch } from '../../store/store'
-import { removeDump, setDumps } from '../../store/dump-store'
+import { removeDump, mergeDumps } from '../../store/dump-store'
 import { DumpSearchFilter } from '../dump-search-filter'
 import { DumpSearchResults } from '../dump-search-results'
 import { Dump } from '../../types/dump-types'
@@ -62,7 +62,7 @@ export function DumpSearchPage(props: DumpSearchPageProps) {
     const file: File | null = event.target.files?.[0] || null
     if (file !== null) {
       const state: RootState = await importState(file)
-      dispatch(setDumps(state.dumps))
+      dispatch(mergeDumps(state.dumps))
     }
   }
 
