@@ -1,4 +1,4 @@
-import { ArrowBack, Close, Delete, Edit, Save } from '@material-ui/icons'
+import { ArrowBack, Close, Delete, Edit, Save, Search } from '@material-ui/icons'
 import { IconButton, withTheme } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
@@ -8,7 +8,7 @@ export const ActionButton = withTheme(styled(ActionButtonComponent)``)
 
 interface ActionButtonProps {
   className: string
-  action: 'back' | 'cancel' | 'delete' | 'edit' | 'save'
+  action: 'search' | 'back' | 'cancel' | 'delete' | 'edit' | 'save'
   disabled: boolean
   onClick: () => void
   edge: 'start' | 'end'
@@ -16,7 +16,7 @@ interface ActionButtonProps {
 
 const propTypes = {
   className: PropTypes.string.isRequired,
-  action: PropTypes.oneOf(['back', 'cancel', 'delete', 'edit', 'save']).isRequired,
+  action: PropTypes.oneOf(['search', 'back', 'cancel', 'delete', 'edit', 'save']).isRequired,
   disabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   edge: PropTypes.oneOf(['start', 'end']).isRequired,
@@ -25,6 +25,8 @@ const propTypes = {
 function ActionButtonComponent(props: ActionButtonProps): JSX.Element {
   function selectIcon(): JSX.Element | null {
     switch (props.action) {
+      case 'search':
+        return <Search />
       case 'back':
         return <ArrowBack />
       case 'cancel':

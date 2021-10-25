@@ -1,8 +1,8 @@
 import { FormControl, Input, InputAdornment, InputLabel } from '@material-ui/core'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Search as SearchIcon } from '@material-ui/icons'
 import { ActionButton } from './header/action-button'
+import { useCancelShortcut } from '../hooks/shortcut-hooks'
 
 interface DumpSearchFilterProps {
   onChange: (filter: string) => void
@@ -14,18 +14,14 @@ const propTypes = {
 
 export function DumpSearchFilter(props: DumpSearchFilterProps): JSX.Element {
   const [state, setState]: [string, React.Dispatch<string>] = useState('')
+  const inputRef = useRef<HTMLInputElement>()
+
+  useCancelShortcut(() => onChange(''))
 
   function onChange(filter: string): void {
     props.onChange(filter)
     setState(filter)
-  }
-
-  function selectAction(): JSX.Element {
-    if (state === '') {
-      return <SearchIcon />
-    } else {
-      return <ActionButton action={'cancel'} onClick={() => onChange('')} edge={'end'} />
-    }
+    inputRef.current?.focus()
   }
 
   return (
@@ -33,9 +29,14 @@ export function DumpSearchFilter(props: DumpSearchFilterProps): JSX.Element {
       <InputLabel htmlFor="search">Search</InputLabel>
       <Input
         id="search"
+        inputRef={inputRef}
         value={state}
         onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
-        endAdornment={<InputAdornment position="end">{selectAction()}</InputAdornment>}
+        endAdornment={
+          <InputAdornment position="end">
+            <ActionButton action={state === '' ? 'search' : 'cancel'} onClick={() => onChange('')} edge={'end'} />
+          </InputAdornment>
+        }
         autoFocus
         autoComplete="off"
       />
