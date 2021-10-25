@@ -1,27 +1,18 @@
-import { IconButton, Menu, MenuItem, Theme, withTheme } from '@material-ui/core'
+import { IconButton, Menu, MenuItem } from '@material-ui/core'
 import { Menu as MenuIcon } from '@material-ui/icons'
 import PropTypes from 'prop-types'
 import React, { MouseEvent, useState } from 'react'
-import styled, { ThemeProps } from 'styled-components'
 import { MenuAction, menuActionShape } from '../../types/menu-action-types'
 
-export const MenuButton = withTheme(styled(MenuButtonComponent)`
-  button {
-    margin-right: ${(props: ThemeProps<Theme>) => props.theme.spacing(2)};
-  }
-`)
-
 interface MenuButtonProps {
-  className: string
   actions: MenuAction[]
 }
 
 const propTypes = {
-  className: PropTypes.string.isRequired,
   actions: PropTypes.arrayOf(PropTypes.shape(menuActionShape).isRequired).isRequired,
 }
 
-function MenuButtonComponent(props: MenuButtonProps): JSX.Element {
+export function MenuButton(props: MenuButtonProps): JSX.Element {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const onMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -44,7 +35,7 @@ function MenuButtonComponent(props: MenuButtonProps): JSX.Element {
   ))
 
   return (
-    <div className={props.className}>
+    <>
       <IconButton onClick={onMenuOpen} edge="start" color="inherit" aria-label="menu">
         <MenuIcon />
       </IconButton>
@@ -54,8 +45,8 @@ function MenuButtonComponent(props: MenuButtonProps): JSX.Element {
           {menuItems}
         </Menu>
       )}
-    </div>
+    </>
   )
 }
 
-MenuButtonComponent.propTypes = propTypes
+MenuButton.propTypes = propTypes
