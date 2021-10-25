@@ -1,6 +1,6 @@
 import { Navigation, useNavigation } from '../../hooks/navigation-hook'
 import { Dump } from '../../types/dump-types'
-import { addDump } from '../../store/dump-store'
+import { addDump } from '../../store/dump-store-actions'
 import React from 'react'
 import { EditorBase } from './editor-base-page'
 import PropTypes from 'prop-types'

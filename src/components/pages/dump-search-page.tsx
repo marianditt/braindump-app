@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { RootState, store, useAppDispatch } from '../../store/store'
-import { removeDump, mergeDumps } from '../../store/dump-store'
+import { mergeDumps, removeDump } from '../../store/dump-store-actions'
 import { DumpSearchFilter } from '../dump-search-filter'
 import { DumpSearchResults } from '../dump-search-results'
 import { Dump } from '../../types/dump-types'

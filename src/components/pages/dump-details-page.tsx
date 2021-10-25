@@ -10,7 +10,7 @@ import { useCancelShortcut, useEditShortcut } from '../../hooks/shortcut-hooks'
 import { useDumpByIdSelector } from '../../hooks/dump-selector-hooks'
 import { ActionButton } from '../header/action-button'
 import { useDispatch } from 'react-redux'
-import { removeDump } from '../../store/dump-store'
+import { removeDump } from '../../store/dump-store-actions'
 import { PageContent } from './page-content'
 
 interface ShowDumpViewProps {

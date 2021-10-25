@@ -1,5 +1,5 @@
 import { Dump } from '../../types/dump-types'
-import { updateDump } from '../../store/dump-store'
+import { updateDump } from '../../store/dump-store-actions'
 import React from 'react'
 import { EditorBase } from './editor-base-page'
 import { DumpRouteParam } from '../../hooks/navigation-hook'
