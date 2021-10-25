@@ -1,8 +1,8 @@
 import { Card, CardContent, Theme, Typography, withTheme } from '@material-ui/core'
-import styled, { ThemeProps } from 'styled-components'
-import React from 'react'
-import { Dump, dumpShape } from '../types/dump-types'
 import PropTypes from 'prop-types'
+import React from 'react'
+import styled, { ThemeProps } from 'styled-components'
+import { Dump, dumpShape } from '../types/dump-types'
 import { DumpDetailsContent } from './dump-details-content'
 
 export const DumpDetails = withTheme(styled(DumpDetailsComponent)`

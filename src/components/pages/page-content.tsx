@@ -1,6 +1,6 @@
 import { Container, Theme, Typography, withTheme } from '@material-ui/core'
-import styled, { ThemeProps } from 'styled-components'
 import PropTypes from 'prop-types'
+import styled, { ThemeProps } from 'styled-components'
 
 export const PageContent = withTheme(styled(PageContentComponent)`
   margin: ${(props: ThemeProps<Theme>) => props.theme.spacing(0, 0, 15)};

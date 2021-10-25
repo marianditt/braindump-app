@@ -1,7 +1,7 @@
-import Markdown from 'react-markdown'
-import React from 'react'
-import styled, { ThemeProps } from 'styled-components'
 import { Theme, withTheme } from '@material-ui/core'
+import React from 'react'
+import Markdown from 'react-markdown'
+import styled, { ThemeProps } from 'styled-components'
 
 export const DumpDetailsContent = withTheme(styled(DumpDetailsContentComponent)`
   ${(props: ThemeProps<any>) => props.theme.typography};

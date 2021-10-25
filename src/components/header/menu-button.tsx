@@ -1,9 +1,9 @@
 import { IconButton, Menu, MenuItem, Theme, withTheme } from '@material-ui/core'
 import { Menu as MenuIcon } from '@material-ui/icons'
-import React, { MouseEvent, useState } from 'react'
-import { MenuAction, menuActionShape } from '../../types/menu-action-types'
-import styled, { ThemeProps } from 'styled-components'
 import PropTypes from 'prop-types'
+import React, { MouseEvent, useState } from 'react'
+import styled, { ThemeProps } from 'styled-components'
+import { MenuAction, menuActionShape } from '../../types/menu-action-types'
 
 export const MenuButton = withTheme(styled(MenuButtonComponent)`
   button {

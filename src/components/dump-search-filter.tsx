@@ -1,8 +1,8 @@
 import { FormControl, Input, InputAdornment, InputLabel } from '@material-ui/core'
-import React, { ChangeEvent, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { ActionButton } from './header/action-button'
+import React, { ChangeEvent, useRef, useState } from 'react'
 import { useCancelShortcut } from '../hooks/shortcut-hooks'
+import { ActionButton } from './header/action-button'
 
 interface DumpSearchFilterProps {
   onChange: (filter: string) => void

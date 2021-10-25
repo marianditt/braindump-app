@@ -1,6 +1,6 @@
 import { Action } from '@reduxjs/toolkit'
-import { Dump } from '../types/dump-types'
 import { findAllDumps } from '../services/dump-service'
+import { Dump } from '../types/dump-types'
 import { DumpAction, DumpActionType, DumpListAction } from './dump-store-types'
 
 const initialState = findAllDumps()

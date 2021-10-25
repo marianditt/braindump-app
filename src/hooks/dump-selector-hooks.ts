@@ -1,6 +1,6 @@
-import { Dump } from '../types/dump-types'
-import { RootState, useAppSelector } from '../store/store'
 import { createSearchHash, scoreSearchResult } from '../services/search-service'
+import { RootState, useAppSelector } from '../store/store'
+import { Dump } from '../types/dump-types'
 
 export function useDumpByIdSelector(dumpId?: string): Dump | null {
   return useAppSelector((state: RootState) => state.dumps.find((dump: Dump) => dump.id === dumpId) || null)

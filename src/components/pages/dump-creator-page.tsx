@@ -1,10 +1,10 @@
-import { Navigation, useNavigation } from '../../hooks/navigation-hook'
-import { Dump } from '../../types/dump-types'
-import { addDump } from '../../store/dump-store-actions'
-import React from 'react'
-import { EditorBase } from './editor-base-page'
 import PropTypes from 'prop-types'
+import React from 'react'
+import { Navigation, useNavigation } from '../../hooks/navigation-hook'
+import { addDump } from '../../store/dump-store-actions'
 import { useAppDispatch } from '../../store/store'
+import { Dump } from '../../types/dump-types'
+import { EditorBase } from './editor-base-page'
 
 interface DumpCreatorPageProps {
   useNavigation: () => Navigation

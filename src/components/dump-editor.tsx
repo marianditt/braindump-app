@@ -1,10 +1,10 @@
 import { Theme, withTheme } from '@material-ui/core'
-import styled, { ThemeProps } from 'styled-components'
-import React, { FormEvent, useEffect, useState } from 'react'
-import { isEmpty } from '../validators/string-validators'
-import { Dump, dumpShape } from '../types/dump-types'
 import PropTypes from 'prop-types'
+import React, { FormEvent, useEffect, useState } from 'react'
+import styled, { ThemeProps } from 'styled-components'
 import { createDump } from '../services/create-service'
+import { Dump, dumpShape } from '../types/dump-types'
+import { isEmpty } from '../validators/string-validators'
 import { AdvancedInput } from './input/advanced-input'
 
 export const DumpEditor = withTheme(styled(DumpEditorComponent)`

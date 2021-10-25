@@ -1,9 +1,9 @@
 import { IconButton, List, ListItem, ListItemSecondaryAction, ListItemText, withTheme } from '@material-ui/core'
+import { Delete as DeleteIcon } from '@material-ui/icons'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { Delete as DeleteIcon } from '@material-ui/icons'
 import { Dump, dumpShape } from '../types/dump-types'
-import PropTypes from 'prop-types'
 
 export const DumpSearchResults = withTheme(styled(DumpSearchComponent)``)
 

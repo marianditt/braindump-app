@@ -1,8 +1,8 @@
 import { Fab, Theme, withTheme } from '@material-ui/core'
 import { Add as AddIcon } from '@material-ui/icons'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { ThemeProps } from 'styled-components'
-import PropTypes from 'prop-types'
 
 export const FloatingButton = withTheme(styled(FloatingButtonComponent)`
   position: fixed;

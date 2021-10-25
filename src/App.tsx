@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { DumpSearchPage } from './components/pages/dump-search-page'
 import { DumpCreatorPage } from './components/pages/dump-creator-page'
 import { DumpDetailsPage } from './components/pages/dump-details-page'
 import { DumpEditorPage } from './components/pages/dump-editor-page'
+import { DumpSearchPage } from './components/pages/dump-search-page'
 
 export function App() {
   return (

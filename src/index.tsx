@@ -1,11 +1,11 @@
+import { CssBaseline, StylesProvider } from '@material-ui/core'
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './App'
-import { reportWebVitals } from './reportWebVitals'
-import { CssBaseline, StylesProvider } from '@material-ui/core'
 import { Provider } from 'react-redux'
-import { store } from './store/store'
+import { App } from './App'
 import { GlobalStyle } from './global-styles'
+import { reportWebVitals } from './reportWebVitals'
+import { store } from './store/store'
 
 ReactDOM.render(withAppContext(<App />), document.getElementById('root'))
 

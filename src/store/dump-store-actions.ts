@@ -1,7 +1,7 @@
-import { Dump } from '../types/dump-types'
-import { DumpAction, DumpActionType, DumpListAction, DumpState, GetState } from './dump-store-types'
 import { Action, Dispatch } from '@reduxjs/toolkit'
 import { postDumps } from '../services/dump-service'
+import { Dump } from '../types/dump-types'
+import { DumpAction, DumpActionType, DumpListAction, DumpState, GetState } from './dump-store-types'
 
 export function mergeDumps(dumps: Dump[]): any {
   const mergeDumpsAction: DumpListAction = {

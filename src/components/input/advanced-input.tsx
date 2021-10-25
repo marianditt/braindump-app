@@ -1,7 +1,7 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { TextField } from '@material-ui/core'
-import { InputEnhancer, InputState } from './advanced-input-types'
 import PropTypes from 'prop-types'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { InputEnhancer, InputState } from './advanced-input-types'
 import { closeParentheses, openParentheses, removeParentheses } from './parentheses-enhancer'
 
 interface AdvancedInputProps {

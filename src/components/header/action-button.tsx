@@ -1,8 +1,8 @@
-import { ArrowBack, Close, Delete, Edit, Save, Search } from '@material-ui/icons'
 import { IconButton, withTheme } from '@material-ui/core'
+import { ArrowBack, Close, Delete, Edit, Save, Search } from '@material-ui/icons'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 export const ActionButton = withTheme(styled(ActionButtonComponent)``)
 

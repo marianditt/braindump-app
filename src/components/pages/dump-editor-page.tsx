@@ -1,12 +1,12 @@
-import { Dump } from '../../types/dump-types'
-import { updateDump } from '../../store/dump-store-actions'
-import React from 'react'
-import { EditorBase } from './editor-base-page'
-import { DumpRouteParam } from '../../hooks/navigation-hook'
 import PropTypes from 'prop-types'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useDumpByIdSelector } from '../../hooks/dump-selector-hooks'
+import { DumpRouteParam } from '../../hooks/navigation-hook'
+import { updateDump } from '../../store/dump-store-actions'
 import { useAppDispatch } from '../../store/store'
+import { Dump } from '../../types/dump-types'
+import { EditorBase } from './editor-base-page'
 
 interface DumpEditorPageProps {
   useDumpParam: () => DumpRouteParam
