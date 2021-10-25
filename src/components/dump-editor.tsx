@@ -45,7 +45,7 @@ interface EditorState {
 
 type SetEditorState = React.Dispatch<React.SetStateAction<EditorState>>
 
-function DumpEditorComponent(props: DumpEditorProps) {
+function DumpEditorComponent(props: DumpEditorProps): JSX.Element {
   const { dump, onChange } = props
 
   const initialState: EditorState = {

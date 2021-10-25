@@ -19,7 +19,7 @@ const propTypes = {
   onDumpRemoval: PropTypes.func.isRequired,
 }
 
-function DumpSearchComponent(props: SearchProps) {
+function DumpSearchComponent(props: SearchProps): JSX.Element {
   const listItems = props.dumps.map((dump: Dump) => (
     <ListItem key={dump.id} button onClick={() => props.onDumpSelection(dump)}>
       <ListItemText primary={dump.summary} secondary={new Date(dump.timestamp).toLocaleString()} />

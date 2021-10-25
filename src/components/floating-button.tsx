@@ -24,7 +24,7 @@ const propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-function FloatingButtonComponent(props: FloatingButtonProps) {
+function FloatingButtonComponent(props: FloatingButtonProps): JSX.Element {
   return (
     <Fab className={props.className} color="primary" aria-label="add" onClick={props.onClick}>
       <AddIcon />

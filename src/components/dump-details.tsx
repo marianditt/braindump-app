@@ -19,7 +19,7 @@ const propTypes = {
   dump: PropTypes.shape(dumpShape).isRequired,
 }
 
-function DumpDetailsComponent(props: DumpDetailsProps) {
+function DumpDetailsComponent(props: DumpDetailsProps): JSX.Element {
   return (
     <Card className={props.className}>
       <CardContent>

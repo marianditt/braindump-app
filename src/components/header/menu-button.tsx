@@ -21,7 +21,7 @@ const propTypes = {
   actions: PropTypes.arrayOf(PropTypes.shape(menuActionShape).isRequired).isRequired,
 }
 
-function MenuButtonComponent(props: MenuButtonProps) {
+function MenuButtonComponent(props: MenuButtonProps): JSX.Element {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
 
   const onMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
