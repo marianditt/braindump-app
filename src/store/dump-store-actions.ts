@@ -1,7 +1,7 @@
 import { Action, Dispatch } from '@reduxjs/toolkit'
 import { postDumps } from '../services/dump-service'
 import { Dump } from '../types/dump-types'
-import { DumpAction, DumpActionType, DumpListAction, DumpState, GetState } from './dump-store-types'
+import { DumpAction, DumpActionType, DumpListAction, GetState } from './dump-store-types'
 
 export function mergeDumps(dumps: Dump[]): any {
   const mergeDumpsAction: DumpListAction = {
@@ -17,40 +17,26 @@ export function mergeDumps(dumps: Dump[]): any {
 }
 
 export function addDump(dump: Dump): any {
-  const addDumpAction: DumpAction = {
-    type: DumpActionType.AddDump,
-    dump: dump,
-  }
-
-  return (dispatch: Dispatch<Action>, getState: GetState<DumpState>): void => {
-    dispatch(addDumpAction)
-    const newState: DumpState = getState()
-    postDumps(newState.dumps)
-  }
+  return dispatchDumpAction(DumpActionType.AddDump, dump)
 }
 
 export function updateDump(dump: Dump): any {
-  const setDumpAction: DumpAction = {
-    type: DumpActionType.UpdateDump,
-    dump: dump,
-  }
-
-  return (dispatch: Dispatch<Action>, getState: GetState<DumpState>): void => {
-    dispatch(setDumpAction)
-    const newState: DumpState = getState()
-    postDumps(newState.dumps)
-  }
+  return dispatchDumpAction(DumpActionType.UpdateDump, dump)
 }
 
 export function removeDump(dump: Dump): any {
-  const removeDumpAction: DumpAction = {
-    type: DumpActionType.RemoveDump,
-    dump: dump,
+  return dispatchDumpAction(DumpActionType.RemoveDump, dump)
+}
+
+function dispatchDumpAction(type: DumpActionType, dump: Dump): any {
+  const dumpAction: DumpAction = {
+    type,
+    dump,
   }
 
-  return (dispatch: Dispatch<Action>, getState: GetState<DumpState>): void => {
-    dispatch(removeDumpAction)
-    const newState: DumpState = getState()
-    postDumps(newState.dumps)
+  return (dispatch: Dispatch<Action>, getState: GetState<Dump[]>): void => {
+    dispatch(dumpAction)
+    const newState: Dump[] = getState()
+    postDumps(newState)
   }
 }

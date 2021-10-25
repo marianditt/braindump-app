@@ -3,10 +3,6 @@ import { Dump } from '../types/dump-types'
 
 export type GetState<T> = () => T
 
-export interface DumpState {
-  dumps: Dump[]
-}
-
 export interface DumpListAction extends Action {
   type: DumpActionType
   dumps: Dump[]

@@ -11,8 +11,7 @@ export function findAllDumps(): Dump[] {
   }
 
   try {
-    const jsonData = JSON.parse(data)
-    return jsonData.dumps
+    return JSON.parse(data)
   } catch (error) {
     return []
   }
